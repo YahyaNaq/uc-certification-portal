@@ -1,4 +1,4 @@
 import './bootstrap';
-// import "./src/main";
+import "./src/main";
 
 // alert('Hello from Vite!');
