@@ -19,7 +19,7 @@
                     <i class="bi bi-1-circle-fill fs-1 text-success"></i>
                     <h1 class="fs-4 fw-semibold"> Divorcer Details</h1>
                 </div>
-                <div class="vr text-success opacity-100" style="width: .2%;"></div>
+                <div class="vr text-success opacity-100" style="width: .3%;"></div>
                 <div>
                     <div class="container">
                         <div class="row g-4 py-3">
@@ -74,7 +74,7 @@
                     <i class="bi bi-2-circle-fill fs-1 text-success"></i>
                     <h1 class="fs-4 fw-semibold">Divorcee Details</h1>
                 </div>
-                <div class="vr text-success opacity-100" style="width: .2%;"></div>
+                <div class="vr text-success opacity-100" style="width: .3%;"></div>
                 <div>
                     <div class="container py-3">
                         <div class="row g-4">
@@ -128,7 +128,7 @@
                     <i class="bi bi-3-circle-fill fs-1 text-success"></i>
                     <h1 class="fs-4 fw-semibold">Divorce Details</h1>
                 </div>
-                <div class="vr text-success opacity-100" style="width: .2%;"></div>
+                <div class="vr text-success opacity-100" style="width: .3%;"></div>
                 <div>
                     <div class="container py-3">
                         <div class="row g-4">
