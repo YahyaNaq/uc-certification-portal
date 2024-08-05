@@ -4,16 +4,17 @@
         <!-- <Sidebar /> -->
         <nav class="p-3 bg-dark text-white">
             <div class="container">
-                <div class="d-flex flex-wrap align-items-center justify-content-start justify-content-lg-start">
+                <div class="d-flex flex-wrap align-items-center justify-content-between justify-content-lg-between">
                     <div class="d-flex gap-3 align-items-center mb-2 mb-lg-0 text-white">
                         <img
                         src="./assets/images/ucLogo.jpg"
-                        class="rounded w-25"
+                        class="rounded"
+                        style="width: 10%;"
                         />
-                        <span class="fs-3">UC Certification Portal</span>
+                        <span class="fs-3 fw-semibold text-uppercase w-50 text-wrap lh-sm">UC Certification Portal</span>
                     </div>
 
-                    <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-start mb-md-0">
+                    <ul class="nav w-full col-12 col-lg-auto me-lg-auto mb-2 justify-content-end mb-md-0">
                         <li><a href="#" class="nav-link px-2 text-secondary">Certificates</a></li>
                         <li><a href="#" class="nav-link px-2 text-white">Forms</a></li>
                         <li><a href="#" class="nav-link px-2 text-white">About</a></li>
@@ -23,10 +24,10 @@
                     <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
                     </form> -->
 
-                    <div class="text-end">
+                    <!-- <div class="text-end">
                         <button type="button" class="btn btn-outline-light me-2">Login</button>
                         <button type="button" class="btn btn-warning">Sign-up</button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </nav>

@@ -1,0 +1,9 @@
+// Import Bootstrap SCSS
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
+// Override Bootstrap variables
+$font-family-base: 'Inter', monospace;
+
+// Import the rest of Bootstrap
+@import "bootstrap/scss/bootstrap";

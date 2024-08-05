@@ -21,7 +21,7 @@
                 </div>
                 <div class="vr text-success opacity-100" style="width: .3%;"></div>
                 <div>
-                    <div class="d-flex flex-wrap gap-4">
+                    <div class="d-flex flex-wrap gap-4 py-3">
                         <div class="form-group col-md-3">
                             <label for="divorcerName" class="mb-2">Divorcer Name</label>
                             <input v-model="formData.divorcerName" type="text" id="divorcerName" class="form-control" />
@@ -63,7 +63,7 @@
                 </div>
                 <div class="vr text-success opacity-100" style="width: .3%;"></div>
                 <div>
-                    <div class="d-flex flex-wrap gap-4">
+                    <div class="d-flex flex-wrap gap-4 py-3">
                         <div class="form-group col-md-3">
                             <label for="divorceeName" class="mb-2">Divorcee Name</label>
                             <input v-model="formData.divorceeName" type="text" id="divorceeName" class="form-control" />
@@ -105,7 +105,7 @@
                 </div>
                 <div class="vr text-success opacity-100" style="width: .8%;"></div>
                 <div>
-                    <div class="d-flex flex-wrap gap-4">
+                    <div class="d-flex flex-wrap gap-4 py-3">
                         <div class="form-group col-md-3">
                             <label for="authority" class="mb-2">Authority for granting Divorce</label>
                             <input v-model="formData.authority" type="text" id="authority" class="form-control" />
