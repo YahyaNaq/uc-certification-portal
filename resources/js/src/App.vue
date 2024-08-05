@@ -14,7 +14,7 @@
                         <span class="fs-3 fw-semibold text-uppercase w-50 text-wrap lh-sm">UC Certification Portal</span>
                     </div>
 
-                    <ul class="nav w-full col-12 col-lg-auto me-lg-auto mb-2 justify-content-end mb-md-0">
+                    <ul class="nav w-full col-12 col-lg-auto me-l-auto mb-2 justify-content-end mb-md-0">
                         <li><a href="#" class="nav-link px-2 text-secondary">Certificates</a></li>
                         <li><a href="#" class="nav-link px-2 text-white">Forms</a></li>
                         <li><a href="#" class="nav-link px-2 text-white">About</a></li>
