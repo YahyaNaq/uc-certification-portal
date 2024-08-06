@@ -17,7 +17,7 @@
             <div class="d-flex align-items-center mb-5 gap-4">
                 <div class="w-50 text-center">
                     <i class="bi bi-1-circle-fill fs-1 text-success"></i>
-                    <h1 class="fs-4 fw-semibold"> Divorcer Details</h1>
+                    <h1 class="fs-4 fw-semibold">Divorcer Details</h1>
                 </div>
                 <div class="vr text-success opacity-100" style="width: .3%;"></div>
                 <div>
@@ -26,7 +26,13 @@
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="divorceeName" class="mb-2">Divorcee Name</label>
-                                    <input v-model="formData.divorceeName" type="text" id="divorceeName" class="form-control" />
+                                    <input
+                                        v-model="formData.divorceeName"
+                                        type="text"
+                                        id="divorceeName"
+                                        class="form-control"
+                                        :class="{'is-invalid': errors.divorceeName && formSubmitted}"
+                                    />
                                     <small v-if="errors.divorceeName && formSubmitted" class="text-danger">{{ errors.divorceeName }}</small>
                                 </div>
                             </div>
@@ -34,7 +40,12 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="divorceeCnic" class="mb-2">CNIC No.</label>
-                                    <input v-model="formData.divorceeCnic" type="text" id="divorceeCnic" class="form-control" />
+                                    <input v-model="formData.divorceeCnic"
+                                        type="text"
+                                        id="divorceeCnic"
+                                        class="form-control"
+                                        :class="{'is-invalid': errors.divorceeCnic && formSubmitted}"
+                                    />
                                     <small v-if="errors.divorceeCnic && formSubmitted" class="text-danger">{{ errors.divorceeCnic }}</small>
                                 </div>
                             </div>
@@ -42,7 +53,12 @@
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="divorceeFatherName" class="mb-2">Father Name</label>
-                                    <input v-model="formData.divorceeFatherName" type="text" id="divorceeFatherName" class="form-control" />
+                                    <input v-model="formData.divorceeFatherName"
+                                        type="text"
+                                        id="divorceeFatherName"
+                                        class="form-control"
+                                        :class="{'is-invalid': errors.divorceeFatherName && formSubmitted}"
+                                    />
                                     <small v-if="errors.divorceeFatherName && formSubmitted" class="text-danger">{{ errors.divorceeFatherName }}</small>
                                 </div>
                             </div>
@@ -50,7 +66,12 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="divorceeFatherCnic" class="mb-2">CNIC No.</label>
-                                    <input v-model="formData.divorceeFatherCnic" type="text" id="divorceeFatherCnic" class="form-control" />
+                                    <input v-model="formData.divorceeFatherCnic"
+                                        type="text"
+                                        id="divorceeFatherCnic"
+                                        class="form-control"
+                                        :class="{'is-invalid': errors.divorceeFatherCnic && formSubmitted}"
+                                    />
                                     <small v-if="errors.divorceeFatherCnic && formSubmitted" class="text-danger">{{ errors.divorceeFatherCnic }}</small>
                                 </div>
                             </div>
@@ -58,7 +79,12 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                     <label for="divorceeAddress" class="mb-2">Address</label>
-                                    <textarea v-model="formData.divorceeAddress" id="divorceeAddress" class="form-control"></textarea>
+                                    <textarea 
+                                    v-model="formData.divorceeAddress"
+                                    id="divorceeAddress"
+                                    class="form-control"
+                                    :class="{'is-invalid': errors.divorceeAddress && formSubmitted}"
+                                    ></textarea>
                                     <small v-if="errors.divorceeAddress && formSubmitted" class="text-danger">{{ errors.divorceeAddress }}</small>
                                 </div>
                             </div>
@@ -81,7 +107,12 @@
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="divorceeName" class="mb-2">Divorcee Name</label>
-                                    <input v-model="formData.divorceeName" type="text" id="divorceeName" class="form-control" />
+                                    <input v-model="formData.divorceeName"
+                                        type="text"
+                                        id="divorceeName"
+                                        class="form-control"
+                                        :class="{'is-invalid': errors.divorceeName && formSubmitted}"
+                                    />
                                     <small v-if="errors.divorceeName && formSubmitted" class="text-danger">{{ errors.divorceeName }}</small>
                                 </div>
                             </div>
@@ -89,7 +120,12 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="divorceeCnic" class="mb-2">CNIC No.</label>
-                                    <input v-model="formData.divorceeCnic" type="text" id="divorceeCnic" class="form-control" />
+                                    <input v-model="formData.divorceeCnic"
+                                        type="text"
+                                        id="divorceeCnic"
+                                        class="form-control"
+                                        :class="{'is-invalid': errors.divorceeCnic && formSubmitted}"
+                                    />
                                     <small v-if="errors.divorceeCnic && formSubmitted" class="text-danger">{{ errors.divorceeCnic }}</small>
                                 </div>
                             </div>
@@ -97,7 +133,12 @@
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="divorceeFatherName" class="mb-2">Father Name</label>
-                                    <input v-model="formData.divorceeFatherName" type="text" id="divorceeFatherName" class="form-control" />
+                                    <input v-model="formData.divorceeFatherName"
+                                        type="text"
+                                        id="divorceeFatherName"
+                                        class="form-control"
+                                        :class="{'is-invalid': errors.divorceeFatherName && formSubmitted}"
+                                    />
                                     <small v-if="errors.divorceeFatherName && formSubmitted" class="text-danger">{{ errors.divorceeFatherName }}</small>
                                 </div>
                             </div>
@@ -105,7 +146,12 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="divorceeFatherCnic" class="mb-2">CNIC No.</label>
-                                    <input v-model="formData.divorceeFatherCnic" type="text" id="divorceeFatherCnic" class="form-control" />
+                                    <input v-model="formData.divorceeFatherCnic"
+                                        type="text"
+                                        id="divorceeFatherCnic"
+                                        class="form-control"
+                                        :class="{'is-invalid': errors.divorceeFatherCnic && formSubmitted}"
+                                    />
                                     <small v-if="errors.divorceeFatherCnic && formSubmitted" class="text-danger">{{ errors.divorceeFatherCnic }}</small>
                                 </div>
                             </div>
@@ -113,7 +159,12 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                     <label for="divorceeAddress" class="mb-2">Address</label>
-                                    <textarea v-model="formData.divorceeAddress" id="divorceeAddress" class="form-control"></textarea>
+                                    <textarea 
+                                    v-model="formData.divorceeAddress"
+                                    id="divorceeAddress"
+                                    class="form-control"
+                                    :class="{'is-invalid': errors.divorceeAddress && formSubmitted}"
+                                    ></textarea>
                                     <small v-if="errors.divorceeAddress && formSubmitted" class="text-danger">{{ errors.divorceeAddress }}</small>
                                 </div>
                             </div>
@@ -135,7 +186,12 @@
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="place" class="mb-2">Place of Marriage</label>
-                                    <input v-model="formData.place" type="text" id="place" class="form-control" />
+                                    <input v-model="formData.place"
+                                        type="text"
+                                        id="place"
+                                        class="form-control"
+                                        :class="{'is-invalid': errors.place && formSubmitted}"
+                                    />
                                     <small v-if="errors.place && formSubmitted" class="text-danger">{{ errors.place }}</small>
                                 </div>
                             </div>
@@ -143,7 +199,12 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="marriage" class="mb-2">Date of Marriage</label>
-                                    <input v-model="formData.marriage" type="date" id="marriage" class="form-control" />
+                                    <input v-model="formData.marriage"
+                                        type="date"
+                                        id="marriage"
+                                        class="form-control"
+                                        :class="{'is-invalid': errors.marriage && formSubmitted}"
+                                    />
                                     <small v-if="errors.marriage && formSubmitted" class="text-danger">{{ errors.marriage }}</small>
                                 </div>
                             </div>
@@ -151,7 +212,12 @@
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="authority" class="mb-2">Authority for granting Divorce</label>
-                                    <input v-model="formData.authority" type="text" id="authority" class="form-control" />
+                                    <input v-model="formData.authority"
+                                        type="text"
+                                        id="authority"
+                                        class="form-control"
+                                        :class="{'is-invalid': errors.authority && formSubmitted}"
+                                    />
                                     <small v-if="errors.authority && formSubmitted" class="text-danger">{{ errors.authority }}</small>
                                 </div>
                             </div>
@@ -159,7 +225,12 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="notice" class="mb-2">Date of Notice for Divorce</label>
-                                    <input v-model="formData.notice" type="date" id="notice" class="form-control" />
+                                    <input v-model="formData.notice"
+                                        type="date"
+                                        id="notice"
+                                        class="form-control"
+                                        :class="{'is-invalid': errors.notice && formSubmitted}"
+                                    />
                                     <small v-if="errors.notice && formSubmitted" class="text-danger">{{ errors.notice }}</small>
                                 </div>
                             </div>
@@ -167,7 +238,13 @@
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="husbandDivorces" class="mb-2">No of Previous Divorces of Husband</label>
-                                    <input v-model="formData.husbandDivorces" type="number" id="husbandDivorces" class="form-control" />
+                                    <input v-model="formData.husbandDivorces"
+                                        type="number"
+                                        default={{0}}
+                                        id="husbandDivorces"
+                                        class="form-control"
+                                        :class="{'is-invalid': errors.husbandDivorces && formSubmitted}"
+                                    />
                                     <small v-if="errors.husbandDivorces && formSubmitted" class="text-danger">{{ errors.husbandDivorces }}</small>
                                 </div>
                             </div>
@@ -175,7 +252,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="wifeDivorces" class="mb-2">No of Previous Divorces of Wife</label>
-                                    <input v-model="formData.wifeDivorces" type="number" id="wifeDivorces" class="form-control" />
+                                    <input v-model="formData.wifeDivorces"
+                                        type="number"
+                                        default={{0}}
+                                        id="wifeDivorces"
+                                        class="form-control"
+                                        :class="{'is-invalid': errors.wifeDivorces && formSubmitted}"
+                                    />
                                     <small v-if="errors.wifeDivorces && formSubmitted" class="text-danger">{{ errors.wifeDivorces }}</small>
                                 </div>
                             </div>
@@ -183,7 +266,12 @@
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="effectiveness" class="mb-2">Date of Effectiveness of Divorce</label>
-                                    <input v-model="formData.effectiveness" type="date" id="effectiveness" class="form-control" />
+                                    <input v-model="formData.effectiveness"
+                                        type="date"
+                                        id="effectiveness"
+                                        class="form-control"
+                                        :class="{'is-invalid': errors.effectiveness && formSubmitted}"
+                                    />
                                     <small v-if="errors.effectiveness && formSubmitted" class="text-danger">{{ errors.effectiveness }}</small>
                                 </div>
                             </div>
@@ -191,7 +279,12 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="registration" class="mb-2">Date of Registration</label>
-                                    <input v-model="formData.registration" type="date" id="registration" class="form-control" />
+                                    <input v-model="formData.registration"
+                                        type="date"
+                                        id="registration"
+                                        class="form-control"
+                                        :class="{'is-invalid': errors.registration && formSubmitted}"
+                                    />
                                     <small v-if="errors.registration && formSubmitted" class="text-danger">{{ errors.registration }}</small>
                                 </div>
                             </div>
@@ -199,7 +292,12 @@
                             <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="reconciliation" class="mb-2">Reconciliation Proceeding Failure Date</label>
-                                    <input v-model="formData.reconciliation" type="date" id="reconciliation" class="form-control" />
+                                    <input v-model="formData.reconciliation"
+                                        type="date"
+                                        id="reconciliation"
+                                        class="form-control"
+                                        :class="{'is-invalid': errors.reconciliation && formSubmitted}"
+                                    />
                                     <small v-if="errors.reconciliation && formSubmitted" class="text-danger">{{ errors.reconciliation }}</small>
                                 </div>
                             </div>
@@ -207,7 +305,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="children" class="mb-2">No of Children from Wedlock</label>
-                                    <input v-model="formData.children" type="number" id="children" class="form-control" />
+                                    <input v-model="formData.children"
+                                        type="number"
+                                        default={{0}}
+                                        id="children"
+                                        class="form-control"
+                                        :class="{'is-invalid': errors.children && formSubmitted}"
+                                    />
                                     <small v-if="errors.children && formSubmitted" class="text-danger">{{ errors.children }}</small>
                                 </div>
                             </div>
@@ -215,7 +319,12 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                     <label for="details" class="mb-2">Details of Divorce and custody of children</label>
-                                    <textarea v-model="formData.details" id="details" class="form-control"></textarea>
+                                    <textarea 
+                                    v-model="formData.details"
+                                    id="details"
+                                    class="form-control"
+                                    :class="{'is-invalid': errors.details && formSubmitted}"
+                                    ></textarea>
                                     <small v-if="errors.details && formSubmitted" class="text-danger">{{ errors.details }}</small>
                                 </div>
                             </div>
@@ -223,7 +332,12 @@
                             <div class="col-md-9">
                                 <div class="form-group">
                                     <label for="arbitration" class="mb-2">Details of Proceeding of Arbitration</label>
-                                    <textarea v-model="formData.arbitration" id="arbitration" class="form-control"></textarea>
+                                    <textarea 
+                                    v-model="formData.arbitration"
+                                    id="arbitration"
+                                    class="form-control"
+                                    :class="{'is-invalid': errors.arbitration && formSubmitted}"
+                                    ></textarea>
                                     <small v-if="errors.arbitration && formSubmitted" class="text-danger">{{ errors.arbitration }}</small>
                                 </div>
                             </div>
@@ -231,7 +345,12 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="cellNo" class="mb-2">Cell No</label>
-                                    <input v-model="formData.cellNo" type="tel" id="cellNo" class="form-control" />
+                                    <input v-model="formData.cellNo"
+                                        type="tel"
+                                        id="cellNo"
+                                        class="form-control"
+                                        :class="{'is-invalid': errors.cellNo && formSubmitted}"
+                                    />
                                     <small v-if="errors.cellNo && formSubmitted" class="text-danger">{{ errors.cellNo }}</small>
                                 </div>
                             </div>
@@ -239,7 +358,12 @@
                             <!-- <div class="col-md-5">
                                 <div class="form-group">
                                     <label for="signature" class="mb-2">Application Signature</label>
-                                    <input v-model="formData.signature" type="text" id="signature" class="form-control" />
+                                    <input v-model="formData.signature"
+                                        type="text"
+                                        id="signature"
+                                        class="form-control"
+                                        :class="{'is-invalid': errors.signature && formSubmitted}"
+                                    />
                                     <small v-if="errors.signature && formSubmitted" class="text-danger">{{ errors.signature }}</small>
                                 </div>
                             </div> -->
@@ -323,13 +447,13 @@ export default {
         const formSubmitted = ref(false);
 
         const handleSubmit = async () => {
+            console.log(errors.cellNo, errors.cellNo && formSubmitted);
             formSubmitted.value = true;
-            console.log(formSubmitted.value);
             const isValid = await validate();
             if (isValid) {
                 try {
-                    const response = await axios.post('/api/submit-divorce-form', formData.value);
-                    responseMessage.value = 'Form submitted successfully!';
+                    const response = await axios.post('/api/certificates/store', formData.value);
+                    // responseMessage.value = 'Form submitted successfully!';
                     // Clear form
                     for (const key in formData.value) {
                         formData.value[key] = '';
@@ -337,7 +461,7 @@ export default {
                     formSubmitted.value = false;
 
                 } catch (error) {
-                    responseMessage.value = 'There was an error submitting the form.';
+                    // responseMessage.value = 'There was an error submitting the form.';
                 }
             }
             
