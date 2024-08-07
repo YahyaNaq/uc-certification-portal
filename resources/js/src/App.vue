@@ -15,9 +15,11 @@
                     </div>
 
                     <ul class="nav w-full col-12 col-lg-auto me-l-auto mb-2 justify-content-end mb-md-0">
-                        <li><a href="#" class="nav-link px-2 text-secondary">Certificates</a></li>
-                        <li><a href="#" class="nav-link px-2 text-white">Forms</a></li>
-                        <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+                        <li>
+                            <router-link to="/certificates" class="nav-link px-2 text-secondary">Certificates</router-link>
+                        </li>
+                        <li><router-link to="/create" class="nav-link px-2 text-white">Forms</router-link></li>
+                        <li><router-link to="/about" class="nav-link px-2 text-white">About</router-link></li>
                     </ul>
 
                     <!-- <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
