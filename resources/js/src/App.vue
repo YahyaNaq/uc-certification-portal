@@ -14,12 +14,22 @@
                         <span class="fs-3 fw-semibold text-uppercase w-50 text-wrap lh-sm">UC Certification Portal</span>
                     </div>
 
-                    <ul class="nav w-full col-12 col-lg-auto me-l-auto mb-2 justify-content-end mb-md-0">
+                    <ul class="nav w-full col-12 col-lg-auto me-l-auto mb-2 justify-content-end align-items-center mb-md-0">
                         <li>
-                            <router-link to="/certificates" class="nav-link px-2 text-secondary">Certificates</router-link>
+                            <router-link to="/" class="nav-link mx-1 text-white" exact-active-class="fw-semibold fs-5">
+                                Certificates
+                            </router-link>
                         </li>
-                        <li><router-link to="/create" class="nav-link px-2 text-white">Forms</router-link></li>
-                        <li><router-link to="/about" class="nav-link px-2 text-white">About</router-link></li>
+                        <li>
+                            <router-link to="/create" class="nav-link mx-1 text-white" exact-active-class="fw-semibold fs-5">
+                                Forms
+                            </router-link>
+                        </li>
+                        <!-- <li>
+                            <router-link to="/about" class="nav-link mx-1 text-white" exact-active-class="fw-semibold fs-5">
+                                About
+                            </router-link>
+                        </li> -->
                     </ul>
 
                     <!-- <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
@@ -54,5 +64,7 @@ export default {
 </script>
 
 <style>
-/* Optionally add custom styles here */
+.fs-4-1 {
+    font-size: 18px;
+};
 </style>

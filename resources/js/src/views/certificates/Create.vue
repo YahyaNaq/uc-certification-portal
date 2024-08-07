@@ -60,6 +60,7 @@
                 </div>
             </footer>
         </div>
+        <Button label="Check" icon="pi pi-check"></Button>
     </div>
 </template>
 
@@ -69,13 +70,15 @@ import DivorceForm from './DivorceForm.vue';
 import MarriageForm from './DivorceForm.vue';
 import DeathForm from './DivorceForm.vue';
 import BirthForm from './DivorceForm.vue';
+import Button from "primevue/button"
 
 export default {
     components: {
         DivorceForm,
         MarriageForm,
         DeathForm,
-        BirthForm
+        BirthForm,
+        Button
     },
     setup() {
         const selectedForm = ref('Divorce');
@@ -92,7 +95,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
     /* .btn.active {
     background-color: #28a745;
     color: white;

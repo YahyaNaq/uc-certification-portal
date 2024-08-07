@@ -15,8 +15,11 @@
         "vue-router": "^4.4.2"
     },
     "dependencies": {
+        "@primevue/themes": "^4.0.4",
         "@vitejs/plugin-vue": "^5.1.2",
         "bootstrap-vue": "^2.23.1",
+        "primeicons": "^7.0.0",
+        "primevue": "^4.0.4",
         "vee-validate": "^4.13.2",
         "vue": "^3.4.35",
         "yup": "^1.4.0"
