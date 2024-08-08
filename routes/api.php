@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CertificatesController;
+use App\Http\Controllers\DivorceCertificatesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('certificates')->controller(CertificatesController::class)->group(function () {
+Route::prefix('certificates')->controller(DivorceCertificatesController::class)->group(function () {
     Route::get('/', 'index');
     Route::post('store', 'store');
 });

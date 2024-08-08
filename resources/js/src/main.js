@@ -4,15 +4,17 @@ import { createApp } from 'vue';
 // router setup
 import router from './routes/router';
 import PrimeVue from 'primevue/config';
-import Aura from '@primevue/themes/aura';
+import Lara from '@primevue/themes/lara';
 // import 'primevue/resources/themes/aura/theme.css'; // theme
 // import 'primevue/resources/primevue.min.css'; // core css
 import 'primeicons/primeicons.css'; // icons
 
-createApp(App)
-    .use(router)
-    .use(PrimeVue, {
-        preset: Aura,
-    })
-    .mount('#app');
+const app = createApp(App);
+app.use(router)
+app.use(PrimeVue, {
+    theme: {
+        preset: Lara
+    }
+});
+app.mount('#app');
 

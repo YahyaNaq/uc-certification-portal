@@ -1,12 +1,17 @@
 <template>
 	<div>
 		<h1 class="fs-3 mb-2">Divorce Certificates</h1>
-		<DataTable :value="certificates">
+		<DataTable
+		:value="certificates"
+		showGridlines
+		size="small"
+		>
 			<Column
 				v-for="col in columns"
 				:key="col.field"
 				:field="col.field"
 				:header="col.header"
+				style="width: 500px"
 			></Column>
 		</DataTable>
 	</div>
@@ -54,7 +59,8 @@ export default {
 		];
 
 		const columns = [
-			{ field: 'divorcerName', header: 'Divorcer Name', style: "width: 100%" },
+			{ field: 'S.no', header: 'S.no', style: "width: 100px", sortable: true },
+			{ field: 'divorcerName', header: 'Divorcer Name', style: "width: 100px", sortable: true },
 			{ field: 'divorcerCnic', header: 'Divorcer CNIC', style: "width: 25%" },
 			{ field: 'divorcerFatherName', header: 'Divorcer Father Name', style: "width: 25%" },
 			{ field: 'divorcerFatherCnic', header: 'Divorcer Father CNIC', style: "width: 25%" },
