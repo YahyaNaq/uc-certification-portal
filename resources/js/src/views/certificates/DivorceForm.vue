@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1 class="fs-3 mb-2">Divorce Certificate Form</h1>
-        <form @submit.prevent="handleSubmit" style="width: 90%;">
+        <form @submit="onSubmit" style="width: 90%;">
             <div class="d-inline-flex align-items-center gap-3 my-3 mb-5 py-2 px-3 bg-dark w-auto rounded p">
                 <span class="fs-6 fw-semibold text-white">Nature of divorce</span>
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
@@ -240,7 +240,6 @@
                                     <label for="husbandDivorces" class="mb-2">No of Previous Divorces of Husband</label>
                                     <input v-model="formData.husbandDivorces"
                                         type="number"
-                                        default={{0}}
                                         id="husbandDivorces"
                                         class="form-control"
                                         :class="{'is-invalid': errors.husbandDivorces && formSubmitted}"
@@ -254,7 +253,6 @@
                                     <label for="wifeDivorces" class="mb-2">No of Previous Divorces of Wife</label>
                                     <input v-model="formData.wifeDivorces"
                                         type="number"
-                                        default={{0}}
                                         id="wifeDivorces"
                                         class="form-control"
                                         :class="{'is-invalid': errors.wifeDivorces && formSubmitted}"
@@ -307,7 +305,6 @@
                                     <label for="children" class="mb-2">No of Children from Wedlock</label>
                                     <input v-model="formData.children"
                                         type="number"
-                                        default={{0}}
                                         id="children"
                                         class="form-control"
                                         :class="{'is-invalid': errors.children && formSubmitted}"
@@ -382,10 +379,13 @@
   
 <script>
 import { ref } from 'vue';
-import { useForm } from 'vee-validate';
+import { Form, useForm } from 'vee-validate';
 import * as yup from 'yup';
   
 export default {
+    components: {
+        // Form
+    },
     setup() {
         const formData = ref({
             divorcerName: '',
@@ -403,8 +403,8 @@ export default {
             place: '',
             arbitration: '',
             children: '',
-            husbandDivorces: '',
-            wifeDivorces: '',
+            husbandDivorces: 0,
+            wifeDivorces: 0,
             reconciliation: '',
             notice: '',
             registration: '',
@@ -414,7 +414,7 @@ export default {
             cellNo: '',
         });
 
-        const { errors, validate } = useForm({
+        const { errors, validate, isSubmitting, setFieldError, setValues, handleSubmit, validateField } = useForm({
             validationSchema: yup.object().shape({
                 divorcerName: yup.string().required('Divorcer Name is required'),
                 divorcerCnic: yup.string().required('CNIC No. is required'),
@@ -446,14 +446,16 @@ export default {
 
         const formSubmitted = ref(false);
 
-        const handleSubmit = async () => {
-            console.log(formData.value);
+        const onSubmit = handleSubmit((values) => {
+            console.log(1);
+            console.log(formData.value, errors.value, values);
 
             formSubmitted.value = true;
-            const isValid = await validate();
+            const isValid = validate();
+            console.log(validateField('arbitration'));
             if (isValid) {
                 try {
-                    const response = await axios.post('/api/certificates/store', formData.value);
+                    const response = axios.post('/api/certificates/store', formData.value);
                     // responseMessage.value = 'Form submitted successfully!';
                     // Clear form
                     for (const key in formData.value) {
@@ -466,11 +468,11 @@ export default {
                 }
             }
             
-        };
+        });
   
         return {
             formData,
-            handleSubmit,
+            onSubmit,
             errors,
             formSubmitted,
             // submitForm
