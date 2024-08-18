@@ -32,19 +32,15 @@
         </div>
 
         <div v-if="selectedForm === 'Birth'">
-            <!-- <h1>B</h1> -->
             <BirthForm />
         </div>
         <div v-if="selectedForm === 'Death'">
-            <!-- <h1>D</h1> -->
             <DeathForm />
         </div>
         <div v-if="selectedForm === 'Marriage'">
-            <!-- <h1>M</h1> -->
             <MarriageForm />
         </div>
         <div v-if="selectedForm === 'Divorce'">
-            <!-- <h1>Div</h1> -->
             <DivorceForm />
         </div>
 
@@ -66,9 +62,9 @@
 <script>
 import { ref } from 'vue';
 import DivorceForm from './DivorceForm.vue';
-import MarriageForm from './DivorceForm.vue';
-import DeathForm from './DivorceForm.vue';
-import BirthForm from './DivorceForm.vue';
+import MarriageForm from './MarriageForm.vue';
+import DeathForm from './DeathForm.vue';
+import BirthForm from './BirthForm.vue';
 
 export default {
     components: {
@@ -78,7 +74,7 @@ export default {
         BirthForm,
     },
     setup() {
-        const selectedForm = ref('Divorce');
+        const selectedForm = ref('Birth');
 
         const selectForm = (form) => {
             selectedForm.value = form;

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BirthCertificateController;
 use App\Http\Controllers\DivorceCertificatesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -16,8 +17,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('certificates')->controller(DivorceCertificatesController::class)->group(function () {
-    Route::get('/', 'index');
-    Route::post('store', 'store');
+    Route::prefix('birth-certificates')->controller(BirthCertificateController::class)->group(function () {
+        Route::get('/', 'index');
+        Route::post('store', 'store');
+    });
+    // Route::get('/', 'index');
+    // Route::post('store', 'store');
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
