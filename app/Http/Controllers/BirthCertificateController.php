@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\BirthCertificate;
 use App\Models\BirthCertificateChild;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 
 class BirthCertificateController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $birth_certificates = BirthCertificate::join('birth_certificate_children as bcc', 'bcc.birth_certificate_id', 'birth_certificates.id')
+            ->get();
+
         return response()->json([
-            'message' => 'Birth Certificate API',
+            'data' => $birth_certificates,
         ]);
     }
 
@@ -32,6 +36,7 @@ class BirthCertificateController extends Controller
             'homeOrHospital' => 'required|string|max:255',
             'disability' => 'required|string|max:255',
             'address' => 'required|string',
+            'cellNo' => 'required|string',
             // Handle children as needed
         ]);
 
@@ -51,13 +56,14 @@ class BirthCertificateController extends Controller
         $birthCertificate->home_or_hospital = $validatedData['homeOrHospital'];
         $birthCertificate->disability = $validatedData['disability'];
         $birthCertificate->address = $validatedData['address'];
+        $birthCertificate->phone_number = $validatedData['cellNo'];
         $birthCertificate->save();
 
         foreach($request->children as $child) {
             $birthCertificateChildren = new BirthCertificateChild();
             $birthCertificateChildren->birth_certificate_id = $birthCertificate->id;
             $birthCertificateChildren->name = $child['name'];
-            $birthCertificateChildren->date_of_birth = $child['dateOfBirth'];
+            $birthCertificateChildren->date_of_birth = $child['dateOfBirth'] ?? new Date();
             $birthCertificateChildren->save();
         }
 

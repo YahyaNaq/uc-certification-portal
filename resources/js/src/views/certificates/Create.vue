@@ -52,7 +52,7 @@
                     class="rounded"
                     style="width: 20%;"
                 />
-                <span class="text-muted">&copy; 2024 UC-Gulshan</span>
+                <span class="text-muted">&copy; 2024 UC-05 Gulshan</span>
                 </div>
             </footer>
         </div>

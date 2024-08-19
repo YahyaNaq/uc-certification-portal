@@ -167,6 +167,17 @@
                         />
                         <ErrorMessage name="disability" class="text-danger" />
                     </div>
+                    <div class="form-group col-md-5 mb-3">
+                        <label for="cellNo" class="mb-2">Cell No.</label>
+                        <Field 
+                            id="cellNo" 
+                            name="cellNo" 
+                            type="text" 
+                            class="form-control"
+                            @change="setFieldValue('cellNo', $event.target.value)"
+                        />
+                        <ErrorMessage name="cellNo" class="text-danger" />
+                    </div>
                 </div>
                 <div class="row">
                     <div class="form-group mb-3">
@@ -183,10 +194,11 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <h1 class="fs-6 text-uppercase col-md-1">S.no</h1>
-            <h1 class="fs-6 text-uppercase col-md-4">Child name</h1>
-            <h1 class="fs-6 text-uppercase col-md-4">Date of Birth</h1>
+        <h1 class="fs-5 fw-bold mb-4">Children Details</h1>
+        <div class="d-flex gap-3 col-md-8 mb-2">
+            <small class="fs-6 col-md-1 text-center fw-semibold">S.no</small>
+            <small class="fs-6 col-md-5 fw-semibold">Child name</small>
+            <small class="fs-6 col-md-4 fw-semibold">Date of Birth</small>
         </div>
         <div
             v-for="(field, index) in fields"
@@ -195,28 +207,44 @@
             >
             <div class="d-flex gap-3">
                 <div class="d-flex gap-3 col-md-8">
-                    <span class="col-md-1 fs-5">{{ index + 1 }}</span>
-                    <Field
-                        :name="`children[${index}].name`"
-                        type="text"
-                        class="form-control"
-                        @change="setFieldValue(`children[${index}].name`, $event.target.value)"
+                    <span class="col-md-1 fs-5 align-self-center text-center">{{ index + 1 }}</span>
+                    <div class="col-md-5">
+                        <Field
+                            :name="`children[${index}].name`"
+                            type="text"
+                            class="form-control"
+                            @change="setFieldValue(`children[${index}].name`, $event.target.value)"
                         />
                         <ErrorMessage :name="`children[${index}].name`" class="text-danger" />
-                        <Field
-                        :name="`children[${index}].dateOfBirth`"
-                        type="date"
-                        class="form-control"
-                        @change="setFieldValue(`children[${index}].dateOfBirth`, $event.target.value)"
-                    />
-                    <ErrorMessage :name="`children[${index}].dateOfBirth`" class="text-danger" />
+                    </div>
+                    <div class="col-md-3">
+                        <!-- <Field
+                            :name="`children[${index}].dateOfBirth`"
+                            type="date"
+                            class="form-control"
+                            @change="setFieldValue(`children[${index}].dateOfBirth`, $event.target.value)"
+                            /> -->
+                        <input
+                            :name="`children[${index}].dateOfBirth`"
+                            type="date"
+                            @change="setFieldValue(`children[${index}].dateOfBirth`, $event.target.value)"
+                            class="form-control"
+                            data-provide=datepicker
+                        />
+                        <!-- <DatePicker
+                            @change="setFieldValue(`children[${index}].dateOfBirth`, $event.target.value)"
+                            inputClass="bg-white rounded py-1 border text-dark"
+                            panelClass="bg-whit ext-dark"
+                        /> -->
+                        <ErrorMessage :name="`children[${index}].dateOfBirth`" class="text-danger" />
+                    </div>
+                    <button v-if="index > 0" type="button" @click="remove(index)" class="btn btn-danger">
+                        <i class="bi bi-trash3 text-light"></i>
+                    </button>
+                    <button v-if="index == 0" type="button" @click="push({ name: '', dateOfBirth: '' })" class="btn btn-dark px-2 py-0">
+                        <i class="bi bi-plus-lg fs-4 text-light"></i>
+                    </button>
                 </div>
-                <button v-if="index > 0" type="button" @click="remove(index)" class="btn btn-danger">
-                    <i class="bi bi-trash3 text-light"></i>
-                </button>
-                <button v-if="index == 0" type="button" @click="push({ name: '', dateOfBirth: '' })" class="btn btn-dark">
-                    <i class="bi bi-plus-lg fs-6 text-light"></i>
-                </button>
             </div>
         </div>
 
@@ -232,15 +260,20 @@ import { Form, Field, ErrorMessage, useForm, useFieldArray } from 'vee-validate'
 import * as yup from 'yup';
 import axios from 'axios';
 import { toast } from "vue3-toastify";
+import DatePicker from 'primevue/datepicker';
+import { ref } from 'vue';
+
 
 export default {
     components: {
         Form,
         Field,
         ErrorMessage,
+        DatePicker
     },
     setup() {
         // Define validation schema
+        const date = ref();
         const schema = yup.object({
             applicantName: yup.string().required('Applicant Name is required.'),
             applicantCnic: yup.string().required('Applicant CNIC No. is required.'),
@@ -257,7 +290,7 @@ export default {
             grandFatherCnic: yup.string().required('Grand Father CNIC No. is required.'),
             address: yup.string().required('Address is required.'),
             // applicantSignature: yup.string().required('Applicant Signature is required.'),
-            // cellNo: yup.string().required('Cell No. is required.'),
+            cellNo: yup.string().required('Cell No. is required.'),
         });
 
         // Initialize form
@@ -278,7 +311,7 @@ export default {
                 grandFatherCnic: '',
                 address: '',
                 // applicantSignature: '',
-                // cellNo: '',
+                cellNo: '',
                 children: [{ name: '', dateOfBirth: '' }], // Initialize children array if needed
             },
             validateOnChange: true,
@@ -308,6 +341,7 @@ export default {
             schema,
             errors,
             fields,
+            date,
             remove,
             push, 
             setFieldValue,
@@ -318,5 +352,18 @@ export default {
 </script>
 
 <style scoped>
-/* Add any styles you need here */
+.form-control-date {
+    /* appearance: none;  */
+    /* padding: 0.375rem 0.75rem;  */
+    /* line-height: normal; */
+    background: #fff; 
+    border: 1px solid #ced4da; 
+    color: #495057;
+}
+
+.form-control-date:focus {
+    outline: none;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); 
+}
 </style>

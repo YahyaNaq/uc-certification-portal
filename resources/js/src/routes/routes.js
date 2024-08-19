@@ -1,7 +1,7 @@
 import '../../bootstrap';
 
 import Create from '../views/certificates/Create.vue';
-import Index from '../views/certificates/Index.vue';
+import Index from '../views/certificates/BirthCertificates.vue';
 // import Edit from './components/Edit.vue';
 
 const routes = [
@@ -11,7 +11,7 @@ const routes = [
       component: Create
   },
   {
-      name: 'Index',
+      name: 'BirthCertificates',
       path: '/',
       component: Index
   },

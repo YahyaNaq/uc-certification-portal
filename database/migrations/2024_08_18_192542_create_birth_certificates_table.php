@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('home_or_hospital');
             $table->string('disability');
             $table->text('address');
+            $table->string('phone_number');
             $table->timestamps();
         });
     }
