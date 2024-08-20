@@ -14,6 +14,7 @@ class BirthCertificateController extends Controller
     {
         $birth_certificates = BirthCertificate::join('verification_statuses as statuses', 'statuses.id', 'birth_certificates.status_id')
             ->join('birth_certificate_children as bcc', 'bcc.birth_certificate_id', 'birth_certificates.id')
+            ->orderBy('birth_certificates.id', 'DESC')
             ->get();
 
         return response()->json([
@@ -74,5 +75,10 @@ class BirthCertificateController extends Controller
             'message' => 'Birth certificate stored successfully!',
             'data' => $birthCertificate
         ], 201);
+    }
+
+    public function update()
+    {
+        
     }
 }

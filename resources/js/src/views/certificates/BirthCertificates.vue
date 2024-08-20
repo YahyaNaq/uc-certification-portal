@@ -5,8 +5,9 @@
 			<DataTable
 				:value="certificates"
 				ref="dt"
+				stripedRows
 				showGridlines
-				paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
+				paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50, 100]"
 				size="small"
 				removableSort
 				tableStyle="min-width: 50rem"
@@ -25,7 +26,19 @@
 					:style="col.style"
 					:sortable="col.sortable"
 					:body="col.body"
-				></Column>
+				>
+					<!-- <template v-if="col.field === 'action'">
+						<SplitButton
+						label="Actions"
+						size="small"
+						:model="items"
+						@click="save(slotProps.rowData)"
+						/>
+					</template>
+					<template v-else>
+						{{ slotProps.rowData[col.field] }}
+					</template> -->
+				</Column>
 			</DataTable>
 		</div>
 	</div>
@@ -38,6 +51,7 @@ import InputMask from 'primevue/inputmask';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import Button from 'primevue/button';
+import SplitButton from 'primevue/splitbutton';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
@@ -47,7 +61,8 @@ export default {
 		DataTable,
 		Column,
 		Button,
-		InputMask
+		InputMask,
+		SplitButton
 	},
 	setup() {
 
@@ -58,6 +73,23 @@ export default {
 			console.log('status');
 			return rowData.status_id === 1 ? 'Pending' : 'Verified';
 		};
+
+		const items = [
+			{
+				label: 'Verify',
+				command: () => {
+					toast.add({ severity: 'success', summary: 'Updated', detail: 'Data Updated', life: 3000 });
+				}
+			},
+			{
+				label: 'Reject',
+				command: () => {
+					toast.add({ severity: 'success', summary: 'Updated', detail: 'Data Updated', life: 3000 });
+				}
+			},
+		];
+
+
 
 		const columns = [
 			{ field: 'serialNo', header: 'Sno.', style: "min-width: 70px; text-align: center", sortable:true },
@@ -80,6 +112,7 @@ export default {
 			// { field: 'signature', header: 'Signature', style: "min-width: 150px", sortable:true },
 			{ field: 'phone_number', header: 'Phone Number', style: "min-width: 150px", sortable:true },
 			{ field: 'label', header: 'Verification Status', style: "min-width: 150px", sortable:true, body: statusBodyTemplate },
+			// { field: 'action', header: 'Action', style: "min-width: 150px", sortable:true },
 		];
 
 		onMounted(() => {
