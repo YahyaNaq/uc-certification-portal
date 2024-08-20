@@ -7,20 +7,14 @@ import PrimeVue from 'primevue/config';
 import Aura from '@primevue/themes/nora';
 // import 'primevue/resources/themes/aura/theme.css'; // theme
 // import 'primevue/resources/primevue.min.css'; // core css
+// import "primevue/resources/themes/lara-light-green/theme.css"; // Import PrimeVue theme
+// import "primevue/resources/primevue.min.css"; // Import PrimeVue CSS
+import 'primevue/resources/themes/aura-light-green/theme.css';
 import 'primeicons/primeicons.css'; // icons
 import "vue3-toastify/dist/index.css";
 
 const app = createApp(App);
 app.use(router)
-app.use(PrimeVue, {
-    theme: {
-        preset: Aura,
-        options: {
-            prefix: 'p',
-            darkModeSelector: 'system',
-            cssLayer: false
-        },
-    }
-});
+app.use(PrimeVue);
 app.mount('#app');
 

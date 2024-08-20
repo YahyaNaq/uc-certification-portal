@@ -12,8 +12,8 @@
 				tableStyle="min-width: 50rem"
 			>
 				<template #header>
-					<div style="text-align: right; font-size: 12px">
-						<Button icon="pi pi-external-link text-sm" label="Export" @click="exportPDF($event)" />
+					<div style="text-align: right; border-radius: 8px;">
+						<Button icon="pi pi-external-link text-sm" size="small" class="rounded"label="Export" @click="exportPDF($event)" />
 					</div>
 				</template>
 				<Column
@@ -21,6 +21,7 @@
 					:key="col.field"
 					:field="col.field"
 					:header="col.header"
+					headerClass="bg-light"
 					:style="col.style"
 					:sortable="col.sortable"
 				></Column>
@@ -32,6 +33,7 @@
 <script>
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+import InputMask from 'primevue/inputmask';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import Button from 'primevue/button';
@@ -43,7 +45,8 @@ export default {
 	components: {
 		DataTable,
 		Column,
-		Button
+		Button,
+		InputMask
 	},
 	setup() {
 
@@ -51,7 +54,7 @@ export default {
 		const dt = ref();
 
 		const columns = [
-			{ field: 'serialNo', header: 'Sno.', style: "min-width: 70px", sortable:true },
+			{ field: 'serialNo', header: 'Sno.', style: "min-width: 70px; text-align: center", sortable:true },
 			{ field: 'applicant_name', header: 'Applicant Name', style: "min-width: 150px", sortable: true },
 			{ field: 'applicant_cnic', header: 'Applicant CNIC', style: "min-width: 150px", sortable: true },
 			{ field: 'father_name', header: 'Father Name', style: "min-width: 150px", sortable:true },
