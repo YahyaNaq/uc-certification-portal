@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BirthCertificate;
 use App\Models\BirthCertificateChild;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 
@@ -63,7 +64,7 @@ class BirthCertificateController extends Controller
             $birthCertificateChildren = new BirthCertificateChild();
             $birthCertificateChildren->birth_certificate_id = $birthCertificate->id;
             $birthCertificateChildren->name = $child['name'];
-            $birthCertificateChildren->date_of_birth = $child['dateOfBirth'] ?? new Date();
+            $birthCertificateChildren->date_of_birth = Carbon::parse($child['dateOfBirth']);
             $birthCertificateChildren->save();
         }
 

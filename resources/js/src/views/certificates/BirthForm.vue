@@ -6,8 +6,12 @@
                 <div class="row">
                     <div class="form-group col-md-7 mb-3">
                         <label for="applicantName" class="mb-2">Applicant Name</label>
-                        <Field id="applicantName" name="applicantName" type="text" class="form-control py-1"
-                            @change="setFieldValue('applicantName', $event.target.value)" />
+                        <InputText
+                            type="text"
+                            id="applicantName"
+                            @change="(e) => handleInputChange(e, 'applicantName')"
+                            class="col-md-12 py-1"
+                        />
                         <ErrorMessage name="applicantName" class="text-danger" />
                     </div>
 
@@ -25,8 +29,12 @@
                 <div class="row">
                     <div class="form-group col-md-7 mb-3">
                         <label for="fatherName" class="mb-2">Father Name</label>
-                        <Field id="fatherName" name="fatherName" type="text" class="form-control py-1"
-                            @change="setFieldValue('fatherName', $event.target.value)" />
+                        <InputText
+                            type="text"
+                            id="fatherName"
+                            @change="(e) => handleInputChange(e, 'fatherName')"
+                            class="col-md-12 py-1"
+                        />
                         <ErrorMessage name="fatherName" class="text-danger" />
                     </div>
 
@@ -44,8 +52,12 @@
                 <div class="row">
                     <div class="form-group col-md-7 mb-3">
                         <label for="motherName" class="mb-2">Mother Name</label>
-                        <Field id="motherName" name="motherName" type="text" class="form-control py-1"
-                            @change="setFieldValue('motherName', $event.target.value)" />
+                        <InputText
+                            type="text"
+                            id="motherName"
+                            @change="(e) => handleInputChange(e, 'motherName')"
+                            class="col-md-12 py-1"
+                        />
                         <ErrorMessage name="motherName" class="text-danger" />
                     </div>
 
@@ -63,8 +75,12 @@
                 <div class="row">
                     <div class="form-group col-md-7 mb-3">
                         <label for="grandFatherName" class="mb-2">Grand Father Name</label>
-                        <Field id="grandFatherName" name="grandFatherName" type="text" class="form-control py-1"
-                            @change="setFieldValue('grandFatherName', $event.target.value)" />
+                        <InputText
+                            type="text"
+                            id="grandFatherName"
+                            @change="(e) => handleInputChange(e, 'grandFatherName')"
+                            class="col-md-12 py-1"
+                        />
                         <ErrorMessage name="grandFatherName" class="text-danger" />
                     </div>
 
@@ -98,12 +114,25 @@
                         <label for="gender" class="mb-2">Gender</label>
                         <Field id="gender" name="gender" type="select" class="form-control py-1"
                             @change="setFieldValue('gender', $event.target.value)" />
+                        <!-- <Dropdown 
+                            :options="genderOptions"
+                            optionLabel="name"
+                            optionValue="code"
+                            placeholder="Select Gender"
+                            class="col-md-12"
+                            size="small"
+                            @change="(e) => handleInputChange(e, 'gender', true)"
+                        /> -->
                         <ErrorMessage name="gender" class="text-danger" />
                     </div>
                     <div class="form-group col-md-4 mb-3">
                         <label for="districtOfBirth" class="mb-2">District of Birth</label>
-                        <Field id="districtOfBirth" name="districtOfBirth" type="text" class="form-control py-1"
-                            @change="setFieldValue('districtOfBirth', $event.target.value)" />
+                        <InputText
+                            type="text"
+                            id="districtOfBirth"
+                            @change="(e) => handleInputChange(e, 'districtOfBirth')"
+                            class="col-md-12 py-1"
+                        />
                         <ErrorMessage name="districtOfBirth" class="text-danger" />
                     </div>
                 </div>
@@ -111,15 +140,23 @@
                 <div class="row">
                     <div class="form-group col-md-6 mb-3">
                         <label for="homeOrHospital" class="mb-2">Home / Hospital</label>
-                        <Field id="homeOrHospital" name="homeOrHospital" type="text" class="form-control py-1"
-                            @change="setFieldValue('homeOrHospital', $event.target.value)" />
+                        <InputText
+                            type="text"
+                            id="homeOrHospital"
+                            @change="(e) => handleInputChange(e, 'homeOrHospital')"
+                            class="col-md-12 py-1"
+                        />
                         <ErrorMessage name="homeOrHospital" class="text-danger" />
                     </div>
 
                     <div class="form-group col-md-6 mb-3">
                         <label for="disability" class="mb-2">Disability</label>
-                        <Field id="disability" name="disability" type="text" class="form-control py-1"
-                            @change="setFieldValue('disability', $event.target.value)" />
+                        <InputText
+                            type="text"
+                            id="disability"
+                            @change="(e) => handleInputChange(e, 'disability')"
+                            class="col-md-12 py-1"
+                        />
                         <ErrorMessage name="disability" class="text-danger" />
                     </div>
                     <div class="form-group col-md-5 mb-3">
@@ -136,8 +173,11 @@
                 <div class="row">
                     <div class="form-group mb-3">
                         <label for="address" class="mb-2">Address</label>
-                        <Field as="textarea" id="address" name="address" class="form-control py-1"
-                            @change="setFieldValue('address', $event.target.value)" />
+                        <Textarea
+                            rows="2"
+                            cols="54"
+                            @change="(e) => handleInputChange(e, 'address')"
+                        />
                         <ErrorMessage name="address" class="text-danger" />
                     </div>
                 </div>
@@ -159,15 +199,14 @@
                         <ErrorMessage :name="`children[${index}].name`" class="text-danger" />
                     </div>
                     <div class="col-md-3">
-                        <!-- <Field
-                            :name="`children[${index}].dateOfBirth`"
-                            type="date"
-                            class="form-control py-1"
+                        <!-- <input :name="`children[${index}].dateOfBirth`" type="date"
                             @change="setFieldValue(`children[${index}].dateOfBirth`, $event.target.value)"
-                            /> -->
-                        <input :name="`children[${index}].dateOfBirth`" type="date"
-                            @change="setFieldValue(`children[${index}].dateOfBirth`, $event.target.value)"
-                            class="form-control py-1" data-provide=datepicker />
+                            class="form-control py-1" data-provide=datepicker /> -->
+                        <Calendar
+                            @update:modelValue="(e) => handleInputChange(e, `children[${index}].dateOfBirth`, 'datepicker')"
+                            :modelValue="values.children[index].dateOfBirth"
+                            inputClass="py-1"
+                        />
                         <!-- <DatePicker
                             @change="setFieldValue(`children[${index}].dateOfBirth`, $event.target.value)"
                             inputClass="bg-white rounded py-1 border text-dark"
@@ -200,7 +239,9 @@ import axios from 'axios';
 import { toast } from "vue3-toastify";
 import InputMask from 'primevue/inputmask';
 import InputText from 'primevue/inputtext';
-// import DatePicker from 'primevue/datepicker';
+import Dropdown from 'primevue/dropdown';
+import Calendar from 'primevue/calendar';
+import Textarea from 'primevue/textarea';
 import { ref } from 'vue';
 
 
@@ -210,13 +251,20 @@ export default {
         Field,
         ErrorMessage,
         InputMask,
-        InputText
-        // DatePicker
+        InputText,
+        Textarea,
+        Dropdown,
+        Calendar
     },
     setup() {
 
         // Define validation schema
         const date = ref();
+
+        const genderOptions = ref([
+            { name: 'Male', code: 'M' },
+            { name: 'Female', code: 'F' },
+        ]);
         const schema = yup.object({
             // applicantName: yup.string().required('Applicant Name is required.'),
             // applicantCnic: yup.string(),
@@ -260,9 +308,22 @@ export default {
             validateOnChange: true,
         });
 
-        const handleInputChange = (e, field) => {
-            setFieldValue(field, e.target.value)
-            console.log(1, values);
+        const handleInputChange = (e, field, inputType = 'input') => {
+            console.log(1, e, inputType);
+
+            let value;
+            switch (inputType) {
+                case 'datepicker':
+                    value = e;
+                    break;
+                case 'dropdown':
+                    value = e.value;
+                    break;
+                default:
+                    value = e.target.value;
+            }
+            // let value = isDropdown ? e.value : e.target.value;
+            setFieldValue(field, value);
         };
 
         const { remove, push, fields } = useFieldArray('children');
@@ -290,6 +351,8 @@ export default {
             errors,
             fields,
             date,
+            genderOptions,
+            values,
             remove,
             push,
             setFieldValue,
