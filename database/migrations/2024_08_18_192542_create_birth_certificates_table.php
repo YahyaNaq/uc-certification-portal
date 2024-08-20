@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('disability');
             $table->text('address');
             $table->string('phone_number');
+            $table->integer('status_id')->index()->default(1);
             $table->timestamps();
         });
     }

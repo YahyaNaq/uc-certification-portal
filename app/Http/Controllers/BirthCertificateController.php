@@ -12,7 +12,8 @@ class BirthCertificateController extends Controller
 {
     public function index(Request $request)
     {
-        $birth_certificates = BirthCertificate::join('birth_certificate_children as bcc', 'bcc.birth_certificate_id', 'birth_certificates.id')
+        $birth_certificates = BirthCertificate::join('verification_statuses as statuses', 'statuses.id', 'birth_certificates.status_id')
+            ->join('birth_certificate_children as bcc', 'bcc.birth_certificate_id', 'birth_certificates.id')
             ->get();
 
         return response()->json([

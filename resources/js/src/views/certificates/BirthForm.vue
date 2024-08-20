@@ -205,6 +205,7 @@
                         <Calendar
                             @update:modelValue="(e) => handleInputChange(e, `children[${index}].dateOfBirth`, 'datepicker')"
                             :modelValue="values.children[index].dateOfBirth"
+                            showIcon iconDisplay="input"
                             inputClass="py-1"
                         />
                         <!-- <DatePicker
@@ -214,7 +215,7 @@
                         /> -->
                         <ErrorMessage :name="`children[${index}].dateOfBirth`" class="text-danger" />
                     </div>
-                    <button v-if="index > 0" type="button" @click="remove(index)" class="btn btn-danger py-0 px-">
+                    <button v-if="index > 0" type="button" @click="remove(index)" class="btn btn-danger py-1" style="padding-left: 10px; padding-right: 10px;">
                         <i class="bi bi-trash3"></i>
                     </button>
                     <button v-if="index == 0" type="button" @click="push({ name: '', dateOfBirth: '' })"

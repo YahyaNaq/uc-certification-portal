@@ -6,14 +6,14 @@
 				:value="certificates"
 				ref="dt"
 				showGridlines
-				paginator :rows="10" :rowsPerPageOptions="[10, 20, 50]"
+				paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50]"
 				size="small"
 				removableSort
 				tableStyle="min-width: 50rem"
 			>
 				<template #header>
 					<div style="text-align: right; border-radius: 8px;">
-						<Button icon="pi pi-external-link text-sm" size="small" class="rounded"label="Export" @click="exportPDF($event)" />
+						<Button icon="pi pi-external-link text-sm" size="small" class="rounded" label="Export" @click="exportPDF($event)" />
 					</div>
 				</template>
 				<Column
@@ -24,6 +24,7 @@
 					headerClass="bg-light"
 					:style="col.style"
 					:sortable="col.sortable"
+					:body="col.body"
 				></Column>
 			</DataTable>
 		</div>
@@ -53,6 +54,11 @@ export default {
 		const certificates = ref([]);
 		const dt = ref();
 
+		const statusBodyTemplate = (rowData) => {
+			console.log('status');
+			return rowData.status_id === 1 ? 'Pending' : 'Verified';
+		};
+
 		const columns = [
 			{ field: 'serialNo', header: 'Sno.', style: "min-width: 70px; text-align: center", sortable:true },
 			{ field: 'applicant_name', header: 'Applicant Name', style: "min-width: 150px", sortable: true },
@@ -73,6 +79,7 @@ export default {
 			// { field: 'created_at', header: 'Registration Date', style: "min-width: 150px", sortable:true },
 			// { field: 'signature', header: 'Signature', style: "min-width: 150px", sortable:true },
 			{ field: 'phone_number', header: 'Phone Number', style: "min-width: 150px", sortable:true },
+			{ field: 'label', header: 'Verification Status', style: "min-width: 150px", sortable:true, body: statusBodyTemplate },
 		];
 
 		onMounted(() => {
