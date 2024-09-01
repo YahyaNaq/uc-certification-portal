@@ -7,7 +7,7 @@
                 <div class="d-flex flex-wrap align-items-center justify-content-between justify-content-lg-between">
                     <div class="d-flex gap-3 align-items-center mb-2 mb-lg-0 text-white">
                         <img
-                        src="./assets/images/ucLogo.jpg"
+                        :src="UCLogo"
                         class="rounded"
                         style="width: 10%;"
                         />
@@ -53,13 +53,21 @@
 
 <script scoped>
 // import Sidebar from './components/Sidebar.vue';
-// import UCLogo from './assets/images/ucLogo.jpg';
+import UCLogo from './assets/images/ucLogo.jpg';
+import { ref } from 'vue';
 
 export default {
     // name: 'App',
     components: {
         // Sidebar,
     },
+    setup() {
+        const UClogo = ref(UCLogo);
+
+        return {
+            UClogo
+        };
+    }
 };
 </script>
 

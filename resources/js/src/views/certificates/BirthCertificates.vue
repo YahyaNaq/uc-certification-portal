@@ -27,7 +27,7 @@
 					:sortable="col.sortable"
 					:body="col.body"
 				>
-					<!-- <template v-if="col.field === 'action'">
+					<template v-if="col.field === 'action'">
 						<SplitButton
 						label="Actions"
 						size="small"
@@ -37,7 +37,7 @@
 					</template>
 					<template v-else>
 						{{ slotProps.rowData[col.field] }}
-					</template> -->
+					</template>
 				</Column>
 			</DataTable>
 		</div>
@@ -112,7 +112,7 @@ export default {
 			// { field: 'signature', header: 'Signature', style: "min-width: 150px", sortable:true },
 			{ field: 'phone_number', header: 'Phone Number', style: "min-width: 150px", sortable:true },
 			{ field: 'label', header: 'Verification Status', style: "min-width: 150px", sortable:true, body: statusBodyTemplate },
-			// { field: 'action', header: 'Action', style: "min-width: 150px", sortable:true },
+			{ field: 'action', header: 'Action', style: "min-width: 150px", sortable:true },
 		];
 
 		onMounted(() => {
@@ -175,6 +175,7 @@ export default {
 			certificates,
 			columns,
 			dt,
+			items,
 			exportPDF,
 			exportExcel
 		};
