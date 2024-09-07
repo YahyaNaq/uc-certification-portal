@@ -6,7 +6,7 @@
 				:value="certificates"
 				ref="dt"
 				stripedRows
-				showGridlines
+				showGridlines="true"
 				paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50, 100]"
 				size="small"
 				removableSort
@@ -112,7 +112,7 @@ export default {
 			// { field: 'signature', header: 'Signature', style: "min-width: 150px", sortable:true },
 			{ field: 'phone_number', header: 'Phone Number', style: "min-width: 150px", sortable:true },
 			{ field: 'label', header: 'Verification Status', style: "min-width: 150px", sortable:true, body: statusBodyTemplate },
-			{ field: 'action', header: 'Action', style: "min-width: 150px", sortable:true },
+			// { field: 'action', header: 'Action', style: "min-width: 150px", sortable:true },
 		];
 
 		onMounted(() => {
