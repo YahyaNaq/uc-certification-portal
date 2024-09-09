@@ -65,7 +65,7 @@ export default {
         const UClogo = ref(UCLogo);
 
         return {
-            UClogo
+            UCLogo
         };
     }
 };

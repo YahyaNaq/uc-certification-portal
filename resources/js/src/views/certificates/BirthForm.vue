@@ -226,6 +226,72 @@
             </div>
         </div>
 
+        <div class="mt-5">
+            <h1 class="fs-5 fw-semibold mb-3">Upload Documents</h1>
+            <div class="d-flex align-items-center mb-4 gap-4 border border-muted px-3 py-3 rounded">
+                <h6 class="fw-semibold">Original Copy of Hospital Birth Certificate</h6>
+                <FileUpload
+                    ref="fileupload"
+                    mode="basic"
+                    name="demo[]"
+                    url="/api/upload"
+                    accept="image/*"
+                    :maxFileSize="1000000"
+                    @upload="onUpload"
+                    />
+            </div>
+            <div class="d-flex flex-wrap justify-content-between">
+                <div class="d-flex flex-wrap align-items-center mb-4 gap-4 border border-muted px-3 py-3 rounded">
+                    <h6 class="fw-semibold">Copy of Father's NIC</h6>
+                    <FileUpload
+                        ref="fileupload"
+                        mode="basic"
+                        name="demo[]"
+                        url="/api/upload"
+                        accept="image/*"
+                        :maxFileSize="1000000"
+                        @upload="onUpload"
+                        />
+                </div>
+                <div class="d-flex flex-wrap align-items-center mb-4 gap-4 border border-muted px-3 py-3 rounded">
+                    <h6 class="fw-semibold">Copy of Mother's NIC</h6>
+                    <FileUpload
+                        ref="fileupload"
+                        mode="basic"
+                        name="demo[]"
+                        url="/api/upload"
+                        accept="image/*"
+                        :maxFileSize="1000000"
+                        @upload="onUpload"
+                        />
+                </div>
+                <div class="d-flex flex-wrap align-items-center mb-4 gap-4 border border-muted px-3 py-3 rounded">
+                    <h6 class="fw-semibold">Copy of Grand Father's NIC</h6>
+                    <FileUpload
+                        ref="fileupload"
+                        mode="basic"
+                        name="demo[]"
+                        url="/api/upload"
+                        accept="image/*"
+                        :maxFileSize="1000000"
+                        @upload="onUpload"
+                        />
+                </div>
+            </div>
+            <div class="d-flex flex-wrap align-items-center mb-4 gap-4 border border-muted px-3 py-3 rounded">
+                <h6 class="fw-semibold">Affidavit verified by the commisioner (For home birth)</h6>
+                <FileUpload
+                    ref="fileupload"
+                    mode="basic"
+                    name="demo[]"
+                    url="/api/upload"
+                    accept="image/*"
+                    :maxFileSize="1000000"
+                    @upload="onUpload"
+                    />
+            </div>
+        </div>
+
         <div class="container d-flex justify-content-end">
             <button type="submit" class="btn btn-success">Submit</button>
         </div>
@@ -239,10 +305,12 @@ import * as yup from 'yup';
 import axios from 'axios';
 import { toast } from "vue3-toastify";
 import InputMask from 'primevue/inputmask';
+import FileUpload from 'primevue/fileupload';
 import InputText from 'primevue/inputtext';
 import Dropdown from 'primevue/dropdown';
 import Calendar from 'primevue/calendar';
 import Textarea from 'primevue/textarea';
+import Button from 'primevue/button';
 import { ref } from 'vue';
 
 
@@ -251,11 +319,13 @@ export default {
         Form,
         Field,
         ErrorMessage,
+        FileUpload,
         InputMask,
         InputText,
         Textarea,
         Dropdown,
-        Calendar
+        Calendar,
+        Button
     },
     setup() {
 
