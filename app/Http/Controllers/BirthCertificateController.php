@@ -60,6 +60,7 @@ class BirthCertificateController extends Controller
         $birthCertificate->disability = $validatedData['disability'];
         $birthCertificate->address = $validatedData['address'];
         $birthCertificate->phone_number = $validatedData['cellNo'];
+        $birthCertificate->status_id = 1;
         $birthCertificate->save();
 
         foreach($request->children as $child) {
