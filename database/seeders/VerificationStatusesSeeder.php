@@ -20,6 +20,7 @@ class VerificationStatusesSeeder extends Seeder
             ['name' => 'Remotely Verified', 'label' => 'Remotely Verified'],
             ['name' => 'Rejected', 'label' => 'Rejected'],
             ['name' => 'Completely Verified', 'label' => 'Completely Verified'],
+            ['name' => 'Certificate Issued', 'label' => 'Certificate Issued'],
         ];
 
         DB::table('verification_statuses')->insert($statuses);

@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\BirthCertificate;
 use App\Models\BirthCertificateChild;
 use Carbon\Carbon;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
 
 class BirthCertificateController extends Controller
 {
@@ -43,39 +45,55 @@ class BirthCertificateController extends Controller
             // Handle children as needed
         ]);
 
-        // Create a new BirthCertificate record
-        $birthCertificate = new BirthCertificate();
-        $birthCertificate->applicant_name = $validatedData['applicantName'];
-        $birthCertificate->applicant_cnic = $validatedData['applicantCnic'];
-        $birthCertificate->father_name = $validatedData['fatherName'];
-        $birthCertificate->father_cnic = $validatedData['fatherCnic'];
-        $birthCertificate->mother_name = $validatedData['motherName'];
-        $birthCertificate->mother_cnic = $validatedData['motherCnic'];
-        $birthCertificate->grand_father_name = $validatedData['grandFatherName'];
-        $birthCertificate->grand_father_cnic = $validatedData['grandFatherCnic'];
-        $birthCertificate->religion = $validatedData['religion'];
-        $birthCertificate->gender = $validatedData['gender'];
-        $birthCertificate->district_of_birth = $validatedData['districtOfBirth'];
-        $birthCertificate->home_or_hospital = $validatedData['homeOrHospital'];
-        $birthCertificate->disability = $validatedData['disability'];
-        $birthCertificate->address = $validatedData['address'];
-        $birthCertificate->phone_number = $validatedData['cellNo'];
-        $birthCertificate->status_id = 1;
-        $birthCertificate->save();
+        try {
 
-        foreach($request->children as $child) {
-            $birthCertificateChildren = new BirthCertificateChild();
-            $birthCertificateChildren->birth_certificate_id = $birthCertificate->id;
-            $birthCertificateChildren->name = $child['name'];
-            $birthCertificateChildren->date_of_birth = Carbon::parse($child['dateOfBirth']);
-            $birthCertificateChildren->save();
+            $birthCertificate = new BirthCertificate();
+            $birthCertificate->applicant_name = $validatedData['applicantName'];
+            $birthCertificate->applicant_cnic = $validatedData['applicantCnic'];
+            $birthCertificate->father_name = $validatedData['fatherName'];
+            $birthCertificate->father_cnic = $validatedData['fatherCnic'];
+            $birthCertificate->mother_name = $validatedData['motherName'];
+            $birthCertificate->mother_cnic = $validatedData['motherCnic'];
+            $birthCertificate->grand_father_name = $validatedData['grandFatherName'];
+            $birthCertificate->grand_father_cnic = $validatedData['grandFatherCnic'];
+            $birthCertificate->religion = $validatedData['religion'];
+            $birthCertificate->gender = $validatedData['gender'];
+            $birthCertificate->district_of_birth = $validatedData['districtOfBirth'];
+            $birthCertificate->home_or_hospital = $validatedData['homeOrHospital'];
+            $birthCertificate->disability = $validatedData['disability'];
+            $birthCertificate->address = $validatedData['address'];
+            $birthCertificate->phone_number = $validatedData['cellNo'];
+            $birthCertificate->status_id = 1;
+            $birthCertificate->save();
+    
+            foreach ($request->children as $child) {
+                $birthCertificateChildren = new BirthCertificateChild();
+                $birthCertificateChildren->birth_certificate_id = $birthCertificate->id;
+                $birthCertificateChildren->name = $child['name'];
+                $birthCertificateChildren->date_of_birth = Carbon::parse($child['dateOfBirth']);
+                $birthCertificateChildren->save();
+            }
+    
+            dd($request->all());
+            // if ()
+            $path = $request->file('hospitalBirthCertificate')->store('images', 'public');
+
+            DB::commit();
+    
+            // Return a response or redirect as needed
+            return response()->json([
+                'message' => 'Birth certificate stored successfully!',
+                'data' => $birthCertificate
+            ], 201);
+
+        } catch (QueryException $qe) {
+            return response()->json([
+                'message' => "Error storing data",
+                'details' => $qe->getMessage()
+            ], 500);
         }
 
-        // Return a response or redirect as needed
-        return response()->json([
-            'message' => 'Birth certificate stored successfully!',
-            'data' => $birthCertificate
-        ], 201);
+        // Create a new BirthCertificate record
     }
 
     public function update()

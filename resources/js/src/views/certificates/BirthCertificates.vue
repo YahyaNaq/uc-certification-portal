@@ -1,5 +1,26 @@
 <template>
 	<div>
+		<Dialog
+			v-model:visible="isDocumentsModalVisible"
+			modal
+			header="Header"
+			:style="{ width: '50vw' }"
+			:breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
+		>
+			<div class="text-center mb-">
+				<!-- <Button
+					icon="pi pi-image"
+					class="rounded"
+					label="Original Copy of Hospital Birth Certificate"
+					severity="contrast"
+				/> -->
+				<Image :src="UCLogo" alt="Image" width="250" preview />
+			</div>
+			<template #footer>
+				<Button class="rounded" label="Verify Documents" />
+				<Button class="rounded" label="Reject Documents" severity="danger" />
+			</template>
+		</Dialog>
 		<h1 class="fs-3 mb-2">Birth Certificates</h1>
 		<div class="card">
 			<DataTable
@@ -27,18 +48,20 @@
 					:sortable="col.sortable"
 					:body="col.body"
 				>
-					<template v-if="col.field === 'action'">
+					<template v-if="col.field === 'action'" #body="{data}">
 						<SplitButton
 						label="Actions"
 						size="small"
-						:model="items"
-						@click="save(slotProps.rowData)"
+						rounded="true"
+						:model="actionItems"
+						@click="save(data)"
 						/>
 					</template>
-					<template v-else>
-						{{ slotProps.rowData[col.field] }}
+					<template v-else #body="{data}">
+						{{ data?.[col.field]}}
 					</template>
 				</Column>
+				<template class="py-2 my-2" #empty> No certificates found. </template>
 			</DataTable>
 		</div>
 	</div>
@@ -52,9 +75,12 @@ import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import Button from 'primevue/button';
 import SplitButton from 'primevue/splitbutton';
+import Image from 'primevue/image';
+import Dialog from 'primevue/dialog';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
+import UCLogo from '../../assets/images/ucLogo.jpg';
 
 export default {
 	components: {
@@ -62,23 +88,25 @@ export default {
 		Column,
 		Button,
 		InputMask,
-		SplitButton
+		SplitButton,
+		Dialog,
+		Image
 	},
 	setup() {
 
 		const certificates = ref([]);
 		const dt = ref();
+		const isDocumentsModalVisible = ref(false);
 
 		const statusBodyTemplate = (rowData) => {
-			console.log('status');
 			return rowData.status_id === 1 ? 'Pending' : 'Verified';
 		};
 
-		const items = [
+		const actionItems = [
 			{
-				label: 'Verify',
+				label: 'View Documents',
 				command: () => {
-					toast.add({ severity: 'success', summary: 'Updated', detail: 'Data Updated', life: 3000 });
+					isDocumentsModalVisible.value = true;
 				}
 			},
 			{
@@ -112,7 +140,7 @@ export default {
 			// { field: 'signature', header: 'Signature', style: "min-width: 150px", sortable:true },
 			{ field: 'phone_number', header: 'Phone Number', style: "min-width: 150px", sortable:true },
 			{ field: 'label', header: 'Verification Status', style: "min-width: 150px", sortable:true, body: statusBodyTemplate },
-			// { field: 'action', header: 'Action', style: "min-width: 150px", sortable:true },
+			{ field: 'action', header: 'Action', style: "min-width: 150px", sortable:true },
 		];
 
 		onMounted(() => {
@@ -175,7 +203,9 @@ export default {
 			certificates,
 			columns,
 			dt,
-			items,
+			actionItems,
+			isDocumentsModalVisible,
+			UCLogo,
 			exportPDF,
 			exportExcel
 		};

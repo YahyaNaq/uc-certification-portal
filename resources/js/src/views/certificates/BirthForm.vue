@@ -1,7 +1,7 @@
 <template>
     <h1 class="fs-3 mb-4">Birth Certificate Form</h1>
     <Form @submit="onSubmit" :validation-schema="schema">
-        <div class="d-flex align-items-start justify-content-between mb-5 gap-3">
+        <div class="d-flex align-items-start justify-content-between mb-5 gap-3 flex-wrap">
             <div class="row col-md-6">
                 <div class="row">
                     <div class="form-group col-md-7 mb-3">
@@ -99,33 +99,38 @@
             <div class="vr text-success opacity-100" style="width: 0.2%;"></div>
             <div class="row col-md-6">
                 <div class="row">
-                    <div class="form-group col-md-4 mb-3">
+                    <div class="form-group col-md-6 mb-3">
                         <label for="religion" class="mb-2">Religion</label>
-                        <InputText
-                            type="text"
-                            id="religion"
-                            @change="(e) => handleInputChange(e, 'religion')"
-                            class="col-md-12 py-1"
+                        <Dropdown 
+                            :options="religionOptions"
+                            v-model="selectedReligion"
+                            optionLabel="name"
+                            optionValue="code"
+                            placeholder="Select Religion"
+                            class="col-md-12"
+                            inputClass="text-sm py-1"
+                            size="small"
+                            @change="(e) => handleInputChange(e, 'religion', 'dropdown')"
                         />
                         <ErrorMessage name="religion" class="text-danger" />
                     </div>
 
-                    <div class="form-group col-md-4 mb-3">
+                    <div class="form-group col-md-6 mb-3">
                         <label for="gender" class="mb-2">Gender</label>
-                        <Field id="gender" name="gender" type="select" class="form-control py-1"
-                            @change="setFieldValue('gender', $event.target.value)" />
-                        <!-- <Dropdown 
+                        <Dropdown 
                             :options="genderOptions"
+                            v-model="selectedGender"
                             optionLabel="name"
                             optionValue="code"
                             placeholder="Select Gender"
                             class="col-md-12"
+                            inputClass="text-sm py-1"
                             size="small"
-                            @change="(e) => handleInputChange(e, 'gender', true)"
-                        /> -->
+                            @change="(e) => handleInputChange(e, 'gender', 'dropdown')"
+                        />
                         <ErrorMessage name="gender" class="text-danger" />
                     </div>
-                    <div class="form-group col-md-4 mb-3">
+                    <div class="form-group col-md-6 mb-3">
                         <label for="districtOfBirth" class="mb-2">District of Birth</label>
                         <InputText
                             type="text"
@@ -135,9 +140,7 @@
                         />
                         <ErrorMessage name="districtOfBirth" class="text-danger" />
                     </div>
-                </div>
 
-                <div class="row">
                     <div class="form-group col-md-6 mb-3">
                         <label for="homeOrHospital" class="mb-2">Home / Hospital</label>
                         <InputText
@@ -148,6 +151,9 @@
                         />
                         <ErrorMessage name="homeOrHospital" class="text-danger" />
                     </div>
+                </div>
+
+                <div class="row">
 
                     <div class="form-group col-md-6 mb-3">
                         <label for="disability" class="mb-2">Disability</label>
@@ -159,7 +165,7 @@
                         />
                         <ErrorMessage name="disability" class="text-danger" />
                     </div>
-                    <div class="form-group col-md-5 mb-3">
+                    <div class="form-group col-md-6 mb-3">
                         <label for="cellNo" class="mb-2">Cell No.</label>
                         <InputMask
                             id="cellNo"
@@ -175,7 +181,7 @@
                         <label for="address" class="mb-2">Address</label>
                         <Textarea
                             rows="2"
-                            cols="54"
+                            cols="52"
                             @change="(e) => handleInputChange(e, 'address')"
                         />
                         <ErrorMessage name="address" class="text-danger" />
@@ -231,27 +237,28 @@
             <div class="d-flex align-items-center mb-4 gap-4 border border-muted px-3 py-3 rounded">
                 <h6 class="fw-semibold">Original Copy of Hospital Birth Certificate</h6>
                 <FileUpload
-                    ref="fileupload"
+                    ref="hospitalBirthCertificate"
                     mode="basic"
                     name="demo[]"
-                    url="/api/upload"
                     accept="image/*"
+                    customUpload
+                    @select="(e) => {
+                        setFieldValue('hospitalBirthCertificate', e.files[0]);
+                        console.log('hospitalBirthCertificate', e.files[0]);
+                    }"
                     :maxFileSize="1000000"
-                    @upload="onUpload"
-                    />
+                />
             </div>
-            <div class="d-flex flex-wrap justify-content-between">
+            <!-- <div class="d-flex flex-wrap justify-content-between">
                 <div class="d-flex flex-wrap align-items-center mb-4 gap-4 border border-muted px-3 py-3 rounded">
                     <h6 class="fw-semibold">Copy of Father's NIC</h6>
                     <FileUpload
                         ref="fileupload"
                         mode="basic"
                         name="demo[]"
-                        url="/api/upload"
                         accept="image/*"
                         :maxFileSize="1000000"
-                        @upload="onUpload"
-                        />
+                    />
                 </div>
                 <div class="d-flex flex-wrap align-items-center mb-4 gap-4 border border-muted px-3 py-3 rounded">
                     <h6 class="fw-semibold">Copy of Mother's NIC</h6>
@@ -259,11 +266,9 @@
                         ref="fileupload"
                         mode="basic"
                         name="demo[]"
-                        url="/api/upload"
                         accept="image/*"
                         :maxFileSize="1000000"
-                        @upload="onUpload"
-                        />
+                    />
                 </div>
                 <div class="d-flex flex-wrap align-items-center mb-4 gap-4 border border-muted px-3 py-3 rounded">
                     <h6 class="fw-semibold">Copy of Grand Father's NIC</h6>
@@ -271,11 +276,9 @@
                         ref="fileupload"
                         mode="basic"
                         name="demo[]"
-                        url="/api/upload"
                         accept="image/*"
                         :maxFileSize="1000000"
-                        @upload="onUpload"
-                        />
+                    />
                 </div>
             </div>
             <div class="d-flex flex-wrap align-items-center mb-4 gap-4 border border-muted px-3 py-3 rounded">
@@ -284,12 +287,10 @@
                     ref="fileupload"
                     mode="basic"
                     name="demo[]"
-                    url="/api/upload"
                     accept="image/*"
                     :maxFileSize="1000000"
-                    @upload="onUpload"
-                    />
-            </div>
+                />
+            </div> -->
         </div>
 
         <div class="container d-flex justify-content-end">
@@ -332,10 +333,21 @@ export default {
         // Define validation schema
         const date = ref();
 
+        const selectedGender = ref();
+        const selectedReligion = ref();
+
+        const religionOptions = ref([
+            { name: 'Islam', code: 'I' },
+            { name: 'Christianity', code: 'C' },
+            { name: 'Hinduism', code: 'H' },
+        ]);
+
         const genderOptions = ref([
             { name: 'Male', code: 'M' },
             { name: 'Female', code: 'F' },
         ]);
+
+        const hospitalBirthCertificate = ref();
         const schema = yup.object({
             // applicantName: yup.string().required('Applicant Name is required.'),
             // applicantCnic: yup.string(),
@@ -375,6 +387,7 @@ export default {
                 // applicantSignature: '',
                 cellNo: '',
                 children: [{ name: '', dateOfBirth: '' }], // Initialize children array if needed
+                hospitalBirthCertificate: '',
             },
             validateOnChange: true,
         });
@@ -423,6 +436,9 @@ export default {
             fields,
             date,
             genderOptions,
+            religionOptions,
+            selectedGender,
+            selectedReligion,
             values,
             remove,
             push,
