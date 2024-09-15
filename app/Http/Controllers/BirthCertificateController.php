@@ -74,9 +74,9 @@ class BirthCertificateController extends Controller
                 $birthCertificateChildren->save();
             }
     
-            dd($request->all());
+            // dd($request->all());
             // if ()
-            $path = $request->file('hospitalBirthCertificate')->store('images', 'public');
+            // $path = $request->file('hospitalBirthCertificate')->store('images', 'public');
 
             DB::commit();
     

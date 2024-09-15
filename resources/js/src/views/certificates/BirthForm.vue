@@ -107,8 +107,11 @@
                             optionLabel="name"
                             optionValue="code"
                             placeholder="Select Religion"
-                            class="col-md-12"
+                            class="col-md-12 p-0"
                             inputClass="text-sm py-1"
+                            panelClass="p-0 m-0"
+                            panelStyle="padding: 0px"
+                            styleClass="p-0"
                             size="small"
                             @change="(e) => handleInputChange(e, 'religion', 'dropdown')"
                         />
@@ -347,7 +350,7 @@ export default {
             { name: 'Female', code: 'F' },
         ]);
 
-        const hospitalBirthCertificate = ref();
+        const hospitalBirthCertificate = ref({});
         const schema = yup.object({
             // applicantName: yup.string().required('Applicant Name is required.'),
             // applicantCnic: yup.string(),
@@ -387,7 +390,7 @@ export default {
                 // applicantSignature: '',
                 cellNo: '',
                 children: [{ name: '', dateOfBirth: '' }], // Initialize children array if needed
-                hospitalBirthCertificate: '',
+                hospitalBirthCertificate: {},
             },
             validateOnChange: true,
         });
@@ -414,7 +417,9 @@ export default {
 
         // Handle form submission
         const onSubmit = handleSubmit(async (formValues) => {
-            console.log(formValues.children);
+            console.log(hospitalBirthCertificate.value);
+            formValues.file = hospitalBirthCertificate.value;
+            console.log(formValues);
             await axios
                 .post('/api/certificates/birth-certificates/store', formValues)
                 .then((response) => {
@@ -439,6 +444,7 @@ export default {
             religionOptions,
             selectedGender,
             selectedReligion,
+            hospitalBirthCertificate,
             values,
             remove,
             push,
