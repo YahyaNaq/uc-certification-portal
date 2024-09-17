@@ -1,6 +1,6 @@
 <template>
     <h1 class="fs-3 mb-4">Birth Certificate Form</h1>
-    <Form @submit="onSubmit" :validation-schema="schema">
+    <Form @submit="onSubmit">
         <div class="d-flex align-items-start justify-content-between mb-5 gap-3 flex-wrap">
             <div class="row col-md-6">
                 <div class="row">
@@ -242,7 +242,7 @@
                 <FileUpload
                     ref="hospitalBirthCertificate"
                     mode="basic"
-                    name="demo[]"
+                    name="hospitalBirthCertificate"
                     accept="image/*"
                     customUpload
                     @select="(e) => {
@@ -352,22 +352,22 @@ export default {
 
         const hospitalBirthCertificate = ref({});
         const schema = yup.object({
-            // applicantName: yup.string().required('Applicant Name is required.'),
-            // applicantCnic: yup.string(),
-            // fatherName: yup.string().required('Father Name is required.'),
-            // fatherCnic: yup.string().required('Father CNIC No. is required.'),
-            // motherName: yup.string().required('Mother Name is required.'),
-            // motherCnic: yup.string().required('Mother CNIC No. is required.'),
-            // religion: yup.string().required('Religion is required.'),
-            // gender: yup.string().required('Gender is required.'),
-            // districtOfBirth: yup.string().required('District of Birth is required.'),
-            // homeOrHospital: yup.string().required('Home / Hospital is required.'),
-            // disability: yup.string().required('Disability is required.'),
-            // grandFatherName: yup.string().required('Grand Father Name is required.'),
-            // grandFatherCnic: yup.string().required('Grand Father CNIC No. is required.'),
-            // address: yup.string().required('Address is required.'),
-            // // applicantSignature: yup.string().required('Applicant Signature is required.'),
-            // cellNo: yup.string().required('Cell No. is required.'),
+            applicantName: yup.string().required('Applicant Name is required.'),
+            applicantCnic: yup.string(),
+            fatherName: yup.string().required('Father Name is required.'),
+            fatherCnic: yup.string().required('Father CNIC No. is required.'),
+            motherName: yup.string().required('Mother Name is required.'),
+            motherCnic: yup.string().required('Mother CNIC No. is required.'),
+            religion: yup.string().required('Religion is required.'),
+            gender: yup.string().required('Gender is required.'),
+            districtOfBirth: yup.string().required('District of Birth is required.'),
+            homeOrHospital: yup.string().required('Home / Hospital is required.'),
+            disability: yup.string().required('Disability is required.'),
+            grandFatherName: yup.string().required('Grand Father Name is required.'),
+            grandFatherCnic: yup.string().required('Grand Father CNIC No. is required.'),
+            address: yup.string().required('Address is required.'),
+            // applicantSignature: yup.string().required('Applicant Signature is required.'),
+            cellNo: yup.string().required('Cell No. is required.'),
         });
 
         // Initialize form
@@ -392,12 +392,11 @@ export default {
                 children: [{ name: '', dateOfBirth: '' }], // Initialize children array if needed
                 hospitalBirthCertificate: {},
             },
-            validateOnChange: true,
+            // validateOnChange: true,
+            // validationSchema: schema,
         });
 
         const handleInputChange = (e, field, inputType = 'input') => {
-            console.log(1, e, inputType);
-
             let value;
             switch (inputType) {
                 case 'datepicker':
@@ -417,11 +416,24 @@ export default {
 
         // Handle form submission
         const onSubmit = handleSubmit(async (formValues) => {
-            console.log(hospitalBirthCertificate.value);
-            formValues.file = hospitalBirthCertificate.value;
-            console.log(formValues);
+
+            const formData = new FormData();
+            
+            console.log("formValues", formValues);
+            
+            for (const key in formValues) {
+                console.log(key); // fields are there
+                formData.append(key, formValues[key]);
+            }
+            
+            console.log("formData", formData); // formData is showing {}
+
             await axios
-                .post('/api/certificates/birth-certificates/store', formValues)
+                .post('/api/certificates/birth-certificates/store', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
                 .then((response) => {
                     toast("Form submitted successfully", {
                         "type": "success",

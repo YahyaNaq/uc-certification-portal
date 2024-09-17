@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
+        $this->call(CertificateTypesSeeder::class);
+        $this->call(DocumentTypesSeeder::class);
         $this->call(VerificationStatusesSeeder::class);
     }
 }

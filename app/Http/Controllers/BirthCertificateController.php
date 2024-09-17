@@ -4,18 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\BirthCertificate;
 use App\Models\BirthCertificateChild;
+use App\Models\CertificateDocument;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class BirthCertificateController extends Controller
 {
     public function index(Request $request)
     {
         $birth_certificates = BirthCertificate::join('verification_statuses as statuses', 'statuses.id', 'birth_certificates.status_id')
-            ->join('birth_certificate_children as bcc', 'bcc.birth_certificate_id', 'birth_certificates.id')
+            ->leftjoin('birth_certificate_children as bcc', 'bcc.birth_certificate_id', 'birth_certificates.id')
             ->orderBy('birth_certificates.id', 'DESC')
             ->get();
 
@@ -66,17 +68,21 @@ class BirthCertificateController extends Controller
             $birthCertificate->status_id = 1;
             $birthCertificate->save();
     
-            foreach ($request->children as $child) {
-                $birthCertificateChildren = new BirthCertificateChild();
-                $birthCertificateChildren->birth_certificate_id = $birthCertificate->id;
-                $birthCertificateChildren->name = $child['name'];
-                $birthCertificateChildren->date_of_birth = Carbon::parse($child['dateOfBirth']);
-                $birthCertificateChildren->save();
+            // foreach ($request->children as $child) {
+            //     $birthCertificateChildren = new BirthCertificateChild();
+            //     $birthCertificateChildren->birth_certificate_id = $birthCertificate->id;
+            //     $birthCertificateChildren->name = $child['name'];
+            //     $birthCertificateChildren->date_of_birth = Carbon::parse($child['dateOfBirth']);
+            //     $birthCertificateChildren->save();
+            // }
+
+            
+            if ($request->hasFile('hospitalBirthCertificate')) {
+                $file = $request->file('hospitalBirthCertificate');
+                
+                CertificateDocumentsController::store($birthCertificate->id, $file, [1, 'birth'], [1, 'cnic']);
             }
-    
-            // dd($request->all());
-            // if ()
-            // $path = $request->file('hospitalBirthCertificate')->store('images', 'public');
+        
 
             DB::commit();
     
@@ -94,6 +100,21 @@ class BirthCertificateController extends Controller
         }
 
         // Create a new BirthCertificate record
+    }
+
+    public function getDocuments(Request $request)
+    {
+        $file = CertificateDocument::where('certificate_id', 1)
+            ->first(['file_path']);
+
+        
+
+        if (!Storage::disk('public')->exists($file->file_path)) {
+            return response()->json(['message' => 'File not found'], 404);
+        }
+    
+        $absolute_path = storage_path('app/public/' . $file->file_path);
+        return response()->file($absolute_path);
     }
 
     public function update()

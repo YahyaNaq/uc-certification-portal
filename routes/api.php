@@ -20,6 +20,7 @@ Route::prefix('certificates')->controller(DivorceCertificatesController::class)-
     Route::prefix('birth-certificates')->controller(BirthCertificateController::class)->group(function () {
         Route::get('/', 'index');
         Route::post('store', 'store');
+        Route::get('documents', 'getDocuments');
     });
     // Route::get('/', 'index');
     // Route::post('store', 'store');

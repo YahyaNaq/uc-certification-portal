@@ -3,7 +3,7 @@
 		<Dialog
 			v-model:visible="isDocumentsModalVisible"
 			modal
-			header="Header"
+			header="User Documents"
 			:style="{ width: '50vw' }"
 			:breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
 		>
@@ -14,7 +14,7 @@
 					label="Original Copy of Hospital Birth Certificate"
 					severity="contrast"
 				/> -->
-				<Image :src="UCLogo" alt="Image" width="250" preview />
+				<Image :src="imageUrl" alt="Image" width="500" preview />
 			</div>
 			<template #footer>
 				<Button class="rounded" label="Verify Documents" />
@@ -97,16 +97,34 @@ export default {
 		const certificates = ref([]);
 		const dt = ref();
 		const isDocumentsModalVisible = ref(false);
+		const imageUrl = ref(UCLogo);
 
 		const statusBodyTemplate = (rowData) => {
 			return rowData.status_id === 1 ? 'Pending' : 'Verified';
+		};
+
+		const getDocuments = () => {
+			axios.get('/api/certificates/birth-certificates/documents', {
+				params: {
+					'id': 1
+				},
+				responseType: 'blob'
+			}).then((response) => {
+				isDocumentsModalVisible.value = true;
+				const blob = response.data;
+				imageUrl.value = URL.createObjectURL(blob);
+				console.log(response);
+
+			}).catch((error) => {
+				console.log(error);
+			});
 		};
 
 		const actionItems = [
 			{
 				label: 'View Documents',
 				command: () => {
-					isDocumentsModalVisible.value = true;
+					getDocuments();
 				}
 			},
 			{
@@ -116,8 +134,6 @@ export default {
 				}
 			},
 		];
-
-
 
 		const columns = [
 			{ field: 'serialNo', header: 'Sno.', style: "min-width: 70px; text-align: center", sortable:true },
@@ -206,6 +222,7 @@ export default {
 			actionItems,
 			isDocumentsModalVisible,
 			UCLogo,
+			imageUrl,
 			exportPDF,
 			exportExcel
 		};
