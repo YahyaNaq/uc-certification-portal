@@ -19,7 +19,25 @@ class BirthCertificateController extends Controller
         $birth_certificates = BirthCertificate::join('verification_statuses as statuses', 'statuses.id', 'birth_certificates.status_id')
             ->leftjoin('birth_certificate_children as bcc', 'bcc.birth_certificate_id', 'birth_certificates.id')
             ->orderBy('birth_certificates.id', 'DESC')
-            ->get();
+            ->get([
+                'birth_certificates.id',
+                'birth_certificates.applicant_name',
+                'birth_certificates.applicant_cnic',
+                'birth_certificates.father_name',
+                'birth_certificates.father_cnic',
+                'birth_certificates.mother_name',
+                'birth_certificates.mother_cnic',
+                'birth_certificates.grand_father_name',
+                'birth_certificates.grand_father_name',
+                'birth_certificates.religion',
+                'birth_certificates.gender',
+                'birth_certificates.district_of_birth',
+                'birth_certificates.home_or_hospital',
+                'birth_certificates.disability',
+                'birth_certificates.address',
+                'birth_certificates.phone_number',
+                'statuses.name as status',
+            ]);
 
         return response()->json([
             'data' => $birth_certificates,
@@ -48,7 +66,6 @@ class BirthCertificateController extends Controller
         ]);
 
         try {
-
             $birthCertificate = new BirthCertificate();
             $birthCertificate->applicant_name = $validatedData['applicantName'];
             $birthCertificate->applicant_cnic = $validatedData['applicantCnic'];
@@ -76,13 +93,12 @@ class BirthCertificateController extends Controller
             //     $birthCertificateChildren->save();
             // }
 
-            
-            if ($request->hasFile('hospitalBirthCertificate')) {
-                $file = $request->file('hospitalBirthCertificate');
-                
-                CertificateDocumentsController::store($birthCertificate->id, $file, [1, 'birth'], [1, 'cnic']);
-            }
-        
+            $certId = $birthCertificate->id;
+            CertificateDocumentsController::store($certId, $request->file('hospitalBirthCertificate'), [1, 'birth'], [1, 'certificate']);
+            CertificateDocumentsController::store($certId, $request->file('copyOfFatherNic'), [1, 'birth'], [1, 'cnic']);
+            CertificateDocumentsController::store($certId, $request->file('copyOfMotherNic'), [1, 'birth'], [1, 'cnic']);
+            CertificateDocumentsController::store($certId, $request->file('copyOfGrandFatherNic'), [1, 'birth'], [1, 'cnic']);
+            CertificateDocumentsController::store($certId, $request->file('affidavit'), [1, 'birth'], [1, 'affidavit']);   
 
             DB::commit();
     
@@ -104,17 +120,22 @@ class BirthCertificateController extends Controller
 
     public function getDocuments(Request $request)
     {
-        $file = CertificateDocument::where('certificate_id', 1)
-            ->first(['file_path']);
+        $filePaths = CertificateDocument::where('certificate_id', $request->id)
+            ->pluck('file_path');     
 
-        
+        $existingFiles = $filePaths->filter(function ($filePath) {
+            return Storage::disk('public')->exists($filePath);
+        });
 
-        if (!Storage::disk('public')->exists($file->file_path)) {
-            return response()->json(['message' => 'File not found'], 404);
+        if ($existingFiles->isEmpty()) {
+            return response()->json(['message' => 'No files found'], 404);
         }
-    
-        $absolute_path = storage_path('app/public/' . $file->file_path);
-        return response()->file($absolute_path);
+
+        $fileUrls = $existingFiles->map(function ($filePath) {
+            return Storage::url($filePath);
+        });
+
+        return response()->json($fileUrls);
     }
 
     public function update()

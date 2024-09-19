@@ -75,4 +75,25 @@ export default {
 .fs-4-1 {
     font-size: 18px;
 };
+.p-dropdown-items{
+    padding:0;
+	margin:0;
+}
+.p-menuitem-link{
+	color: black;
+	text-decoration: none;
+}
+.p-tieredmenu-root-list {
+	padding:0;
+	margin:0;
+}
+.p-splitbutton{
+	border-radius: 2px !important;
+}
+.p-splitbutton-menubutton{
+    border-radius: 0 6px 6px 0;
+}
+.p-splitbutton-defaultbutton{
+    border-radius: 6px 0 0 6px;
+}
 </style>

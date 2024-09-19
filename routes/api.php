@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('certificates')->controller(DivorceCertificatesController::class)->group(function () {
+Route::prefix('certificates')->group(function () {
     Route::prefix('birth-certificates')->controller(BirthCertificateController::class)->group(function () {
         Route::get('/', 'index');
         Route::post('store', 'store');

@@ -89,8 +89,8 @@ export default {
 </script>
 
 <style>
-    /* .btn.active {
-    background-color: #28a745;
-    color: white;
-    } */
+.p-dropdown-items{
+    padding:0;
+	margin-bottom:0;
+}
 </style>

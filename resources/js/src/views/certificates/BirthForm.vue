@@ -208,20 +208,13 @@
                         <ErrorMessage :name="`children[${index}].name`" class="text-danger" />
                     </div>
                     <div class="col-md-3">
-                        <!-- <input :name="`children[${index}].dateOfBirth`" type="date"
-                            @change="setFieldValue(`children[${index}].dateOfBirth`, $event.target.value)"
-                            class="form-control py-1" data-provide=datepicker /> -->
                         <Calendar
                             @update:modelValue="(e) => handleInputChange(e, `children[${index}].dateOfBirth`, 'datepicker')"
                             :modelValue="values.children[index].dateOfBirth"
                             showIcon iconDisplay="input"
                             inputClass="py-1"
+                            :maxDate="today"
                         />
-                        <!-- <DatePicker
-                            @change="setFieldValue(`children[${index}].dateOfBirth`, $event.target.value)"
-                            inputClass="bg-white rounded py-1 border text-dark"
-                            panelClass="bg-whit ext-dark"
-                        /> -->
                         <ErrorMessage :name="`children[${index}].dateOfBirth`" class="text-danger" />
                     </div>
                     <button v-if="index > 0" type="button" @click="remove(index)" class="btn btn-danger py-1" style="padding-left: 10px; padding-right: 10px;">
@@ -247,53 +240,68 @@
                     customUpload
                     @select="(e) => {
                         setFieldValue('hospitalBirthCertificate', e.files[0]);
-                        console.log('hospitalBirthCertificate', e.files[0]);
                     }"
                     :maxFileSize="1000000"
                 />
             </div>
-            <!-- <div class="d-flex flex-wrap justify-content-between">
-                <div class="d-flex flex-wrap align-items-center mb-4 gap-4 border border-muted px-3 py-3 rounded">
+            <div class="d-flex flex-wrap justify-content-between">
+                <div class="d-flex align-items-center mb-4 gap-4 border border-muted px-3 py-3 rounded">
                     <h6 class="fw-semibold">Copy of Father's NIC</h6>
                     <FileUpload
-                        ref="fileupload"
+                        ref="copyOfFatherNic"
                         mode="basic"
-                        name="demo[]"
+                        name="copyOfFatherNic"
                         accept="image/*"
+                        customUpload
+                        @select="(e) => {
+                            setFieldValue('copyOfFatherNic', e.files[0]);
+                        }"
                         :maxFileSize="1000000"
                     />
                 </div>
-                <div class="d-flex flex-wrap align-items-center mb-4 gap-4 border border-muted px-3 py-3 rounded">
+                <div class="d-flex align-items-center mb-4 gap-4 border border-muted px-3 py-3 rounded">
                     <h6 class="fw-semibold">Copy of Mother's NIC</h6>
                     <FileUpload
-                        ref="fileupload"
+                        ref="copyOfMotherNic"
                         mode="basic"
-                        name="demo[]"
+                        name="copyOfMotherNic"
                         accept="image/*"
+                        customUpload
+                        @select="(e) => {
+                            setFieldValue('copyOfMotherNic', e.files[0]);
+                        }"
                         :maxFileSize="1000000"
                     />
                 </div>
                 <div class="d-flex flex-wrap align-items-center mb-4 gap-4 border border-muted px-3 py-3 rounded">
                     <h6 class="fw-semibold">Copy of Grand Father's NIC</h6>
                     <FileUpload
-                        ref="fileupload"
+                        ref="copyOfGrandFatherNic"
                         mode="basic"
-                        name="demo[]"
+                        name="copyOfGrandFatherNic"
                         accept="image/*"
+                        customUpload
+                        @select="(e) => {
+                            setFieldValue('copyOfGrandFatherNic', e.files[0]);
+                        }"
                         :maxFileSize="1000000"
                     />
                 </div>
             </div>
             <div class="d-flex flex-wrap align-items-center mb-4 gap-4 border border-muted px-3 py-3 rounded">
-                <h6 class="fw-semibold">Affidavit verified by the commisioner (For home birth)</h6>
+                <h6 class="fw-semibold" style="font-size:15px">Affidavit verified by the commisioner (For home birth)</h6>
                 <FileUpload
-                    ref="fileupload"
+                    ref="affidavit"
                     mode="basic"
-                    name="demo[]"
+                    name="affidavit"
                     accept="image/*"
+                    customUpload
+                    @select="(e) => {
+                        setFieldValue('affidavit', e.files[0]);
+                    }"
                     :maxFileSize="1000000"
                 />
-            </div> -->
+            </div>
         </div>
 
         <div class="container d-flex justify-content-end">
@@ -335,6 +343,7 @@ export default {
 
         // Define validation schema
         const date = ref();
+        const today = new Date();
 
         const selectedGender = ref();
         const selectedReligion = ref();
@@ -419,14 +428,12 @@ export default {
 
             const formData = new FormData();
             
-            console.log("formValues", formValues);
-            
             for (const key in formValues) {
                 console.log(key); // fields are there
                 formData.append(key, formValues[key]);
             }
             
-            console.log("formData", formData); // formData is showing {}
+            console.log("formData", formData);
 
             await axios
                 .post('/api/certificates/birth-certificates/store', formData, {
@@ -452,6 +459,7 @@ export default {
             errors,
             fields,
             date,
+            today,
             genderOptions,
             religionOptions,
             selectedGender,

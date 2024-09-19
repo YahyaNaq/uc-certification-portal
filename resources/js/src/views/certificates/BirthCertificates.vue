@@ -14,7 +14,7 @@
 					label="Original Copy of Hospital Birth Certificate"
 					severity="contrast"
 				/> -->
-				<Image :src="imageUrl" alt="Image" width="500" preview />
+				<Image :src="imageUrls[0]" alt="Image" height="500" preview />
 			</div>
 			<template #footer>
 				<Button class="rounded" label="Verify Documents" />
@@ -27,7 +27,7 @@
 				:value="certificates"
 				ref="dt"
 				stripedRows
-				showGridlines="true"
+				showGridlines
 				paginator :rows="10" :rowsPerPageOptions="[5, 10, 20, 50, 100]"
 				size="small"
 				removableSort
@@ -50,11 +50,11 @@
 				>
 					<template v-if="col.field === 'action'" #body="{data}">
 						<SplitButton
-						label="Actions"
-						size="small"
-						rounded="true"
-						:model="actionItems"
-						@click="save(data)"
+							label="Actions"
+							size="small"
+							v-bind="$attrs"
+							rounded
+							:model="actionItems(data)"
 						/>
 					</template>
 					<template v-else #body="{data}">
@@ -81,6 +81,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 import UCLogo from '../../assets/images/ucLogo.jpg';
+import { toast } from 'vue3-toastify';
 
 export default {
 	components: {
@@ -97,43 +98,47 @@ export default {
 		const certificates = ref([]);
 		const dt = ref();
 		const isDocumentsModalVisible = ref(false);
-		const imageUrl = ref(UCLogo);
+		const imageUrls = ref([UCLogo]);
 
 		const statusBodyTemplate = (rowData) => {
 			return rowData.status_id === 1 ? 'Pending' : 'Verified';
 		};
 
-		const getDocuments = () => {
-			axios.get('/api/certificates/birth-certificates/documents', {
-				params: {
-					'id': 1
-				},
-				responseType: 'blob'
-			}).then((response) => {
-				isDocumentsModalVisible.value = true;
-				const blob = response.data;
-				imageUrl.value = URL.createObjectURL(blob);
-				console.log(response);
+		const getDocuments = (id) => {
+			axios.get(`/api/certificates/birth-certificates/documents?id=${id}`)
+				.then((response) => {
+					isDocumentsModalVisible.value = true;
+					const fileUrls = response.data;
+					imageUrls.value = fileUrls;
 
-			}).catch((error) => {
-				console.log(error);
-			});
+				}).catch((error) => {
+					toast(error.response.data.message, {
+                        "type": "error",
+                        "dangerouslyHTMLString": true
+                    });
+				});
 		};
 
-		const actionItems = [
-			{
-				label: 'View Documents',
-				command: () => {
-					getDocuments();
-				}
-			},
-			{
-				label: 'Reject',
-				command: () => {
-					toast.add({ severity: 'success', summary: 'Updated', detail: 'Data Updated', life: 3000 });
-				}
-			},
-		];
+		const actionItems = (rowData) => {
+			return [
+				{
+					label: 'Edit',
+					icon: 'pi pi-pencil',
+					command: () => {
+						toast.add({ severity: 'success', summary: 'Updated', detail: 'Data Updated', life: 3000 });
+					}
+				},
+				{
+					label: 'View Documents',
+					icon: 'pi pi-eye',
+					class: "no-underline",
+					command: () => {
+						console.log(rowData);
+						getDocuments(rowData.id);
+					},
+				},
+			]
+		};
 
 		const columns = [
 			{ field: 'serialNo', header: 'Sno.', style: "min-width: 70px; text-align: center", sortable:true },
@@ -155,7 +160,7 @@ export default {
 			// { field: 'created_at', header: 'Registration Date', style: "min-width: 150px", sortable:true },
 			// { field: 'signature', header: 'Signature', style: "min-width: 150px", sortable:true },
 			{ field: 'phone_number', header: 'Phone Number', style: "min-width: 150px", sortable:true },
-			{ field: 'label', header: 'Verification Status', style: "min-width: 150px", sortable:true, body: statusBodyTemplate },
+			{ field: 'status', header: 'Verification Status', style: "min-width: 150px", sortable:true },
 			{ field: 'action', header: 'Action', style: "min-width: 150px", sortable:true },
 		];
 
@@ -166,7 +171,6 @@ export default {
 						...item,
 						serialNo: index + 1,
 					}));
-					console.log(response.data.data);
 				})
 				.catch(error => {
 					console.error('Error fetching certificates:', error);
@@ -222,7 +226,7 @@ export default {
 			actionItems,
 			isDocumentsModalVisible,
 			UCLogo,
-			imageUrl,
+			imageUrls,
 			exportPDF,
 			exportExcel
 		};
@@ -231,5 +235,5 @@ export default {
 </script>
 
 <style>
-/* Add any custom styles if needed */
+
 </style>
