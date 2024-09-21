@@ -38,6 +38,7 @@ class BirthCertificateController extends Controller
                 'birth_certificates.address',
                 'birth_certificates.phone_number',
                 'statuses.name as status',
+                'statuses.id as status_id',
             ]);
 
         return response()->json([
@@ -65,6 +66,8 @@ class BirthCertificateController extends Controller
             'cellNo' => 'required|string',
             // Handle children as needed
         ]);
+
+        DB::beginTransaction();
 
         try {
             $birthCertificate = new BirthCertificate();

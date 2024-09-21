@@ -2,9 +2,9 @@
     <h1 class="fs-3 mb-4">Birth Certificate Form</h1>
     <Form @submit="onSubmit">
         <div class="d-flex align-items-start justify-content-between mb-5 gap-3 flex-wrap">
-            <div class="row col-md-6">
+            <div class="row col-md-6 col-sm-5">
                 <div class="row">
-                    <div class="form-group col-md-7 mb-3">
+                    <div class="flex flex-column gap-2 col-lg-7 col-sm-12 mb-3">
                         <label for="applicantName" class="mb-2">Applicant Name</label>
                         <InputText
                             type="text"
@@ -15,7 +15,7 @@
                         <ErrorMessage name="applicantName" class="text-danger" />
                     </div>
 
-                    <div class="form-group col-md-5 mb-3">
+                    <div class="flex flex-column gap-2 col-lg-5 col-md- mb-3">
                         <label for="applicantCnic" class="mb-2">Applicant CNIC No.</label>
                         <InputMask
                             id="applicantCnic"
@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-7 mb-3">
+                    <div class="flex flex-column gap-2 col-lg-7 col-md- mb-3">
                         <label for="fatherName" class="mb-2">Father Name</label>
                         <InputText
                             type="text"
@@ -38,7 +38,7 @@
                         <ErrorMessage name="fatherName" class="text-danger" />
                     </div>
 
-                    <div class="form-group col-md-5 mb-3">
+                    <div class="flex flex-column gap-2 col-lg-5 col-md- mb-3">
                         <label for="fatherCnic" class="mb-2">Father CNIC No.</label>
                         <InputMask
                             id="fatherCnic"
@@ -50,7 +50,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-7 mb-3">
+                    <div class="flex flex-column gap-2 col-lg-7 col-md- mb-3">
                         <label for="motherName" class="mb-2">Mother Name</label>
                         <InputText
                             type="text"
@@ -61,7 +61,7 @@
                         <ErrorMessage name="motherName" class="text-danger" />
                     </div>
 
-                    <div class="form-group col-md-5 mb-3">
+                    <div class="flex flex-column gap-2 col-lg-5 col-md- mb-3">
                         <label for="motherCnic" class="mb-2">Mother CNIC No.</label>
                         <InputMask
                             id="motherCnic"
@@ -73,7 +73,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-7 mb-3">
+                    <div class="flex flex-column gap-2 col-lg-7 col-md- mb-3">
                         <label for="grandFatherName" class="mb-2">Grand Father Name</label>
                         <InputText
                             type="text"
@@ -84,7 +84,7 @@
                         <ErrorMessage name="grandFatherName" class="text-danger" />
                     </div>
 
-                    <div class="form-group col-md-5 mb-3">
+                    <div class="flex flex-column gap-2 col-lg-5 col-md- mb-3">
                         <label for="grandFatherCnic" class="mb-2">Grand Father CNIC No.</label>
                         <InputMask
                             id="grandFatherCnic"
@@ -97,9 +97,9 @@
                 </div>
             </div>
             <div class="vr text-success opacity-100" style="width: 0.2%;"></div>
-            <div class="row col-md-6">
+            <div class="row col-md-6 col-sm-5">
                 <div class="row">
-                    <div class="form-group col-md-6 mb-3">
+                    <div class="flex flex-column gap-2 col-lg-6 col-md- mb-3">
                         <label for="religion" class="mb-2">Religion</label>
                         <Dropdown 
                             :options="religionOptions"
@@ -110,7 +110,7 @@
                             class="col-md-12 p-0"
                             inputClass="text-sm py-1"
                             panelClass="p-0 m-0"
-                            panelStyle="padding: 0px"
+                            :panelStyle="{padding: '0px'}"
                             styleClass="p-0"
                             size="small"
                             @change="(e) => handleInputChange(e, 'religion', 'dropdown')"
@@ -118,7 +118,7 @@
                         <ErrorMessage name="religion" class="text-danger" />
                     </div>
 
-                    <div class="form-group col-md-6 mb-3">
+                    <div class="flex flex-column gap-2 col-lg-6 col-md- mb-3">
                         <label for="gender" class="mb-2">Gender</label>
                         <Dropdown 
                             :options="genderOptions"
@@ -133,18 +133,24 @@
                         />
                         <ErrorMessage name="gender" class="text-danger" />
                     </div>
-                    <div class="form-group col-md-6 mb-3">
+
+                    <div class="flex flex-column gap-2 col-lg-6 col-md- mb-3">
                         <label for="districtOfBirth" class="mb-2">District of Birth</label>
-                        <InputText
-                            type="text"
-                            id="districtOfBirth"
-                            @change="(e) => handleInputChange(e, 'districtOfBirth')"
-                            class="col-md-12 py-1"
+                        <Dropdown 
+                            :options="districtOptions"
+                            v-model="selectedDistrict"
+                            optionLabel="label"
+                            optionValue="value"
+                            placeholder="Select District"
+                            class="col-md-12"
+                            inputClass="text-sm py-1"
+                            size="small"
+                            @change="(e) => handleInputChange(e, 'districtOfBirth', 'dropdown')"
                         />
                         <ErrorMessage name="districtOfBirth" class="text-danger" />
                     </div>
 
-                    <div class="form-group col-md-6 mb-3">
+                    <div class="flex flex-column gap-2 col-lg-6 col-md- mb-3">
                         <label for="homeOrHospital" class="mb-2">Home / Hospital</label>
                         <InputText
                             type="text"
@@ -158,7 +164,7 @@
 
                 <div class="row">
 
-                    <div class="form-group col-md-6 mb-3">
+                    <div class="flex flex-column gap-2 col-lg-6 col-md- mb-3">
                         <label for="disability" class="mb-2">Disability</label>
                         <InputText
                             type="text"
@@ -168,7 +174,7 @@
                         />
                         <ErrorMessage name="disability" class="text-danger" />
                     </div>
-                    <div class="form-group col-md-6 mb-3">
+                    <div class="flex flex-column gap-2 col-lg-6 col-md- mb-3">
                         <label for="cellNo" class="mb-2">Cell No.</label>
                         <InputMask
                             id="cellNo"
@@ -180,12 +186,13 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group mb-3">
+                    <div class="flex flex-column col-lg-12 col-md-8 gap-2 mb-3">
                         <label for="address" class="mb-2">Address</label>
                         <Textarea
                             rows="2"
                             cols="52"
                             @change="(e) => handleInputChange(e, 'address')"
+                            required
                         />
                         <ErrorMessage name="address" class="text-danger" />
                     </div>
@@ -198,7 +205,7 @@
             <small class="fs-6 col-md-5 fw-semibold">Child name</small>
             <small class="fs-6 col-md-4 fw-semibold">Date of Birth</small>
         </div>
-        <div v-for="(field, index) in fields" :key="field.key" class="form-group mb-3">
+        <div v-for="(field, index) in fields" :key="field.key" class="flex flex-column gap-2 mb-3">
             <div class="d-flex gap-3">
                 <div class="d-flex gap-3 col-md-8">
                     <span class="col-md-1 fs-5 align-self-center text-center">{{ index + 1 }}</span>
@@ -346,6 +353,7 @@ export default {
         const today = new Date();
 
         const selectedGender = ref();
+        const selectedDistrict = ref();
         const selectedReligion = ref();
 
         const religionOptions = ref([
@@ -358,6 +366,17 @@ export default {
             { label: 'Male', value: 'M' },
             { label: 'Female', value: 'F' },
         ]);
+
+        const districtOptions = ref([
+            { label: 'Korangi', value: 'Korangi' },
+            { label: 'East', value: 'East' },
+            { label: 'West', value: 'West' },
+            { label: 'South', value: 'South' },
+            { label: 'Malir', value: 'Malir' },
+            { label: 'Central', value: 'Central' },
+            { label: 'Kemari', value: 'Kemari' },
+        ]);
+        
 
         const hospitalBirthCertificate = ref({});
         const schema = yup.object({
@@ -378,6 +397,8 @@ export default {
             // applicantSignature: yup.string().required('Applicant Signature is required.'),
             cellNo: yup.string().required('Cell No. is required.'),
         });
+
+        console.log(schema);
 
         // Initialize form
         const { values, setFieldValue, errors, handleSubmit } = useForm({
@@ -402,7 +423,8 @@ export default {
                 hospitalBirthCertificate: {},
             },
             // validateOnChange: true,
-            // validationSchema: schema,
+            // validateOnMount: false,
+            validationSchema: schema,
         });
 
         const handleInputChange = (e, field, inputType = 'input') => {
@@ -461,8 +483,10 @@ export default {
             date,
             today,
             genderOptions,
+            districtOptions,
             religionOptions,
             selectedGender,
+            selectedDistrict,
             selectedReligion,
             hospitalBirthCertificate,
             values,

@@ -14,10 +14,14 @@
 					label="Original Copy of Hospital Birth Certificate"
 					severity="contrast"
 				/> -->
-				<Image :src="imageUrls[0]" alt="Image" height="500" preview />
+				<Carousel :value="imageUrls" :numVisible="3" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
+					<template #item="{data}">
+						<Image :src="data" alt="Image" height="350" preview />
+					</template>
+				</Carousel>
 			</div>
-			<template #footer>
-				<Button class="rounded" label="Verify Documents" @click="updateCertificateStatus(2)"/>
+			<template #footer >
+				<Button class="rounded mr-2" label="Verify Documents" @click="updateCertificateStatus(2)"/>
 				<Button class="rounded" label="Reject Documents" severity="danger" @click="updateCertificateStatus(3)"/>
 			</template>
 		</Dialog>
@@ -50,6 +54,7 @@
 				>
 					<template v-if="col.field === 'action'" #body="{data}">
 						<SplitButton
+							ref="actionButtonRef"
 							label="Actions"
 							size="small"
 							v-bind="$attrs"
@@ -67,7 +72,7 @@
 							size="small"
 							class="rounded px-2.5 py-1 p-text-sm"
 							severity="contrast"
-							outlined
+							:outlined="data.status_id != 5"
 							style="font-size: 14px;"
 						/>
 					</template>
@@ -100,6 +105,7 @@ import UCLogo from '../../assets/images/ucLogo.jpg';
 import { toast } from 'vue3-toastify';
 import { useConfirm } from "primevue/useconfirm";
 import ConfirmPopup from 'primevue/confirmpopup';
+import Carousel from 'primevue/carousel';
 
 export default {
 	components: {
@@ -110,7 +116,8 @@ export default {
 		SplitButton,
 		Dialog,
 		Image,
-		ConfirmPopup
+		ConfirmPopup,
+		Carousel
 	},
 	setup() {
 
@@ -120,6 +127,7 @@ export default {
 		const imageUrls = ref([UCLogo]);
 		const viewDocumentsModalData = ref({});
 		const confirm = useConfirm();
+		const actionButtonRef = ref(null);
 
 		const getDocuments = (id) => {
 			axios.get(`/api/certificates/birth-certificates/documents?id=${id}`)
@@ -127,6 +135,7 @@ export default {
 					isDocumentsModalVisible.value = true;
 					const fileUrls = response.data;
 					imageUrls.value = fileUrls;
+					console.log(imageUrls.value[0]);
 
 				}).catch((error) => {
 					toast(error.response.data.message, {
@@ -138,7 +147,7 @@ export default {
 
 		const confirmAction = (event) => {
 			confirm.require({
-				target: event.currentTarget,
+				target: event,
 				message: 'Are you sure you want to complete verification for this certificate?',
 				icon: 'pi pi-exclamation-triangle',
 				rejectClass: 'p-button-secondary p-button-outlined p-button-sm',
@@ -154,20 +163,12 @@ export default {
 		}
 
 		const actionItems = (rowData) => {
-			return [
+			let actions = [
 				{
 					label: 'Edit',
 					icon: 'pi pi-pencil',
 					command: () => {
-						toast.add({ severity: 'success', summary: 'Updated', detail: 'Data Updated', life: 3000 });
-					}
-				},
-				{
-					label: 'Complete Verification',
-					icon: 'pi pi-verified',
-					command: (event) => {
-						viewDocumentsModalData.value = { id: rowData.id };
-						confirmAction(event.originalEvent);
+						alert('Edited');
 					}
 				},
 				{
@@ -179,14 +180,38 @@ export default {
 						getDocuments(rowData.id);
 					},
 				},
-			]
+			];
+
+			if (rowData.status_id == 2) {
+				actions.push({
+					label: 'Complete Verification',
+					icon: 'pi pi-verified',
+					command: (event) => {
+						viewDocumentsModalData.value = { id: rowData.id };
+						updateCertificateStatus(4);
+						// const target = actionButtonRef.value[0].$el; 
+						// confirmAction(target);
+					}
+				});
+			}
+			else if (rowData.status_id == 4) {
+				actions.push({
+					label: 'Issue Certificate',
+					icon: 'pi pi-check-circle',
+					command: (event) => {
+						viewDocumentsModalData.value = { id: rowData.id };
+						updateCertificateStatus(5);
+					}
+				});
+			}
+
+			return actions;
 		};
 
 		const updateCertificateStatus = (status) => {
 			axios.post('api/certificates/birth-certificates/update-status', { status, certificate: viewDocumentsModalData.value})
 				.then((response) => {
 					let data = response.data;
-					let displayMessage = `Documents of <b>${data.applicant_name}</b> have been ${data.new_status}`;
 					toast(`Documents of <b>${data.applicant_name}</b> have been ${data.new_status}`, {
 						"type": "success",
 						"dangerouslyHTMLString": true
@@ -194,7 +219,7 @@ export default {
 
 					certificates.value = certificates.value.map((certificate) => {
 						if (certificate.id == viewDocumentsModalData.value.id) {
-							return { ...certificate, status: data.new_status };
+							return { ...certificate, status: data.new_status, status_id: status };
 						}
 						return certificate;
 					})
@@ -229,6 +254,29 @@ export default {
 			{ field: 'status', header: 'Verification Status', style: "min-width: 190px", sortable:true },
 			{ field: 'action', header: 'Action', style: "min-width: 150px", sortable:true },
 		];
+
+		const responsiveOptions = ref([
+			{
+				breakpoint: '1400px',
+				numVisible: 1,
+				numScroll: 1
+			},
+			{
+				breakpoint: '1199px',
+				numVisible: 1,
+				numScroll: 1
+			},
+			{
+				breakpoint: '767px',
+				numVisible: 1,
+				numScroll: 1
+			},
+			{
+				breakpoint: '575px',
+				numVisible: 1,
+				numScroll: 1
+			}
+		]);
 
 		onMounted(() => {
 			axios.get('/api/certificates/birth-certificates')
@@ -291,8 +339,10 @@ export default {
 			dt,
 			actionItems,
 			isDocumentsModalVisible,
+			actionButtonRef,
 			UCLogo,
 			imageUrls,
+			responsiveOptions,
 			exportPDF,
 			exportExcel,
 			updateCertificateStatus

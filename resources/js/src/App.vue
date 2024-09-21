@@ -1,11 +1,11 @@
 <template>
     <div>
         <!-- Navbar -->
-        <!-- <Sidebar /> -->
         <nav class="p-3 bg-dark text-white">
             <div class="container">
                 <div class="d-flex flex-wrap align-items-center justify-content-between justify-content-lg-between">
                     <div class="d-flex gap-3 align-items-center mb-2 mb-lg-0 text-white">
+                        <!-- <Sidebar /> -->
                         <img
                         :src="UCLogo"
                         class="rounded"
@@ -31,15 +31,6 @@
                             </router-link>
                         </li> -->
                     </ul>
-
-                    <!-- <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                    <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
-                    </form> -->
-
-                    <!-- <div class="text-end">
-                        <button type="button" class="btn btn-outline-light me-2">Login</button>
-                        <button type="button" class="btn btn-warning">Sign-up</button>
-                    </div> -->
                 </div>
             </div>
         </nav>
@@ -52,14 +43,14 @@
 </template>
 
 <script scoped>
-// import Sidebar from './components/Sidebar.vue';
+import Sidebar from './components/Sidebar.vue';
 import UCLogo from './assets/images/ucLogo.jpg';
 import { ref } from 'vue';
 
 export default {
     // name: 'App',
     components: {
-        // Sidebar,
+        Sidebar,
     },
     setup() {
         const UClogo = ref(UCLogo);
