@@ -21,6 +21,7 @@ Route::prefix('certificates')->group(function () {
         Route::get('/', 'index');
         Route::post('store', 'store');
         Route::get('documents', 'getDocuments');
+        Route::post('update-status', 'updateStatus');
     });
     // Route::get('/', 'index');
     // Route::post('store', 'store');

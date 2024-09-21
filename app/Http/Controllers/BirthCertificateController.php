@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BirthCertificate;
 use App\Models\BirthCertificateChild;
+use App\Models\Certificate;
 use App\Models\CertificateDocument;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
@@ -55,8 +56,8 @@ class BirthCertificateController extends Controller
             'motherCnic' => 'required|string|max:255',
             'grandFatherName' => 'required|string|max:255',
             'grandFatherCnic' => 'required|string|max:255',
-            'religion' => 'required|string|max:255',
-            'gender' => 'required|string|max:255',
+            'religion' => 'required|max:255',
+            'gender' => 'required|max:255',
             'districtOfBirth' => 'required|string|max:255',
             'homeOrHospital' => 'required|string|max:255',
             'disability' => 'required|string|max:255',
@@ -109,6 +110,7 @@ class BirthCertificateController extends Controller
             ], 201);
 
         } catch (QueryException $qe) {
+            DB::rollBack();
             return response()->json([
                 'message' => "Error storing data",
                 'details' => $qe->getMessage()
@@ -136,6 +138,19 @@ class BirthCertificateController extends Controller
         });
 
         return response()->json($fileUrls);
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $birth_certificate = BirthCertificate::where('id', $request->certificate['id'])
+            ->first(['id', 'status_id', 'applicant_name']);
+        $birth_certificate->status_id = $request->status;
+        $birth_certificate->save();
+
+        return response()->json([
+            'new_status' => $birth_certificate->status->name,
+            'applicant_name' => $birth_certificate->applicant_name
+        ]);
     }
 
     public function update()

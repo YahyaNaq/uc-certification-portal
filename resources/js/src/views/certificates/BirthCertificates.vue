@@ -17,8 +17,8 @@
 				<Image :src="imageUrls[0]" alt="Image" height="500" preview />
 			</div>
 			<template #footer>
-				<Button class="rounded" label="Verify Documents" />
-				<Button class="rounded" label="Reject Documents" severity="danger" />
+				<Button class="rounded" label="Verify Documents" @click="updateCertificateStatus(2)"/>
+				<Button class="rounded" label="Reject Documents" severity="danger" @click="updateCertificateStatus(3)"/>
 			</template>
 		</Dialog>
 		<h1 class="fs-3 mb-2">Birth Certificates</h1>
@@ -57,12 +57,28 @@
 							:model="actionItems(data)"
 						/>
 					</template>
+					<template v-else-if="col.field === 'gender'" #body="{data}" class="text-center">
+						<Button v-if="data.gender == 'M'" icon="bi bi-person-standing" label="Male" :text="true" severity="contrast" />
+						<Button v-if="data.gender == 'F'" icon="bi bi-person-standing-dress" label="Female" :text="true" severity="contrast" />
+					</template>
+					<template v-else-if="col.field === 'status'" #body="{data}">
+						<Button
+							:label="data.status"
+							size="small"
+							class="rounded px-2.5 py-1 p-text-sm"
+							severity="contrast"
+							outlined
+							style="font-size: 14px;"
+						/>
+					</template>
+
 					<template v-else #body="{data}">
 						{{ data?.[col.field]}}
 					</template>
 				</Column>
 				<template class="py-2 my-2" #empty> No certificates found. </template>
 			</DataTable>
+			<ConfirmPopup></ConfirmPopup>
 		</div>
 	</div>
 </template>
@@ -82,6 +98,8 @@ import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 import UCLogo from '../../assets/images/ucLogo.jpg';
 import { toast } from 'vue3-toastify';
+import { useConfirm } from "primevue/useconfirm";
+import ConfirmPopup from 'primevue/confirmpopup';
 
 export default {
 	components: {
@@ -91,7 +109,8 @@ export default {
 		InputMask,
 		SplitButton,
 		Dialog,
-		Image
+		Image,
+		ConfirmPopup
 	},
 	setup() {
 
@@ -99,10 +118,8 @@ export default {
 		const dt = ref();
 		const isDocumentsModalVisible = ref(false);
 		const imageUrls = ref([UCLogo]);
-
-		const statusBodyTemplate = (rowData) => {
-			return rowData.status_id === 1 ? 'Pending' : 'Verified';
-		};
+		const viewDocumentsModalData = ref({});
+		const confirm = useConfirm();
 
 		const getDocuments = (id) => {
 			axios.get(`/api/certificates/birth-certificates/documents?id=${id}`)
@@ -119,6 +136,23 @@ export default {
 				});
 		};
 
+		const confirmAction = (event) => {
+			confirm.require({
+				target: event.currentTarget,
+				message: 'Are you sure you want to complete verification for this certificate?',
+				icon: 'pi pi-exclamation-triangle',
+				rejectClass: 'p-button-secondary p-button-outlined p-button-sm',
+				acceptClass: 'p-button-sm',
+				rejectLabel: 'Cancel',
+				acceptLabel: 'Confirm',
+				accept: () => {
+					updateCertificateStatus(4);
+				},
+				reject: () => {
+				}
+			});
+		}
+
 		const actionItems = (rowData) => {
 			return [
 				{
@@ -129,15 +163,47 @@ export default {
 					}
 				},
 				{
+					label: 'Complete Verification',
+					icon: 'pi pi-verified',
+					command: (event) => {
+						viewDocumentsModalData.value = { id: rowData.id };
+						confirmAction(event.originalEvent);
+					}
+				},
+				{
 					label: 'View Documents',
 					icon: 'pi pi-eye',
 					class: "no-underline",
 					command: () => {
-						console.log(rowData);
+						viewDocumentsModalData.value = { id: rowData.id };
 						getDocuments(rowData.id);
 					},
 				},
 			]
+		};
+
+		const updateCertificateStatus = (status) => {
+			axios.post('api/certificates/birth-certificates/update-status', { status, certificate: viewDocumentsModalData.value})
+				.then((response) => {
+					let data = response.data;
+					let displayMessage = `Documents of <b>${data.applicant_name}</b> have been ${data.new_status}`;
+					toast(`Documents of <b>${data.applicant_name}</b> have been ${data.new_status}`, {
+						"type": "success",
+						"dangerouslyHTMLString": true
+					});
+
+					certificates.value = certificates.value.map((certificate) => {
+						if (certificate.id == viewDocumentsModalData.value.id) {
+							return { ...certificate, status: data.new_status };
+						}
+						return certificate;
+					})
+				}).catch((error) => {
+					toast(error.response.data.message, {
+                        "type": "error",
+                        "dangerouslyHTMLString": true
+                    });
+				});
 		};
 
 		const columns = [
@@ -149,9 +215,9 @@ export default {
 			{ field: 'mother_name', header: 'Mother Name', style: "min-width: 150px", sortable:true },
 			{ field: 'mother_cnic', header: 'Mother CNIC', style: "min-width: 150px", sortable:true },
 			{ field: 'religion', header: 'Religion', style: "min-width: 100px", sortable:true },
-			{ field: 'gender', header: 'Gender', style: "min-width: 100px", sortable:true },
-			{ field: 'district_of_birth', header: 'District of Birth', style: "min-width: 150px", sortable:true },
-			{ field: 'home_or_hospital', header: 'Place of Birth', style: "min-width: 150px", sortable:true },
+			{ field: 'gender', header: 'Gender', style: "min-width: 100px" },
+			{ field: 'district_of_birth', header: 'District of Birth', style: "min-width: 180px", sortable:true },
+			{ field: 'home_or_hospital', header: 'Place of Birth', style: "min-width: 180px", sortable:true },
 			{ field: 'disability', header: 'Disability', style: "min-width: 150px", sortable:true },
 			// { field: 'grand_father_name', header: 'Grand Father Name', style: "min-width: 150px", sortable:true },
 			// { field: 'grand_father_cnic', header: 'Grand Father CNIC', style: "min-width: 150px", sortable:true },
@@ -160,7 +226,7 @@ export default {
 			// { field: 'created_at', header: 'Registration Date', style: "min-width: 150px", sortable:true },
 			// { field: 'signature', header: 'Signature', style: "min-width: 150px", sortable:true },
 			{ field: 'phone_number', header: 'Phone Number', style: "min-width: 150px", sortable:true },
-			{ field: 'status', header: 'Verification Status', style: "min-width: 150px", sortable:true },
+			{ field: 'status', header: 'Verification Status', style: "min-width: 190px", sortable:true },
 			{ field: 'action', header: 'Action', style: "min-width: 150px", sortable:true },
 		];
 
@@ -228,7 +294,8 @@ export default {
 			UCLogo,
 			imageUrls,
 			exportPDF,
-			exportExcel
+			exportExcel,
+			updateCertificateStatus
 		};
 	},
 };

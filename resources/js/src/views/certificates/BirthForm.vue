@@ -104,8 +104,8 @@
                         <Dropdown 
                             :options="religionOptions"
                             v-model="selectedReligion"
-                            optionLabel="name"
-                            optionValue="code"
+                            optionLabel="label"
+                            optionValue="value"
                             placeholder="Select Religion"
                             class="col-md-12 p-0"
                             inputClass="text-sm py-1"
@@ -123,8 +123,8 @@
                         <Dropdown 
                             :options="genderOptions"
                             v-model="selectedGender"
-                            optionLabel="name"
-                            optionValue="code"
+                            optionLabel="label"
+                            optionValue="value"
                             placeholder="Select Gender"
                             class="col-md-12"
                             inputClass="text-sm py-1"
@@ -349,14 +349,14 @@ export default {
         const selectedReligion = ref();
 
         const religionOptions = ref([
-            { name: 'Islam', code: 'I' },
-            { name: 'Christianity', code: 'C' },
-            { name: 'Hinduism', code: 'H' },
+            { label: 'Islam', value: 'Islam' },
+            { label: 'Christianity', value: 'Christianity' },
+            { label: 'Hinduism', value: 'Hinduism' },
         ]);
 
         const genderOptions = ref([
-            { name: 'Male', code: 'M' },
-            { name: 'Female', code: 'F' },
+            { label: 'Male', value: 'M' },
+            { label: 'Female', value: 'F' },
         ]);
 
         const hospitalBirthCertificate = ref({});
@@ -429,7 +429,7 @@ export default {
             const formData = new FormData();
             
             for (const key in formValues) {
-                console.log(key); // fields are there
+                console.log(key, formValues[key]); // fields are there
                 formData.append(key, formValues[key]);
             }
             
