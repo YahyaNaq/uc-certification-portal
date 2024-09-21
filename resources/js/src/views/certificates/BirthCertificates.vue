@@ -4,21 +4,34 @@
 			v-model:visible="isDocumentsModalVisible"
 			modal
 			header="User Documents"
-			:style="{ width: '50vw' }"
+			:style="{ width: '70vw' }"
 			:breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
 		>
 			<div class="text-center mb-">
-				<!-- <Button
-					icon="pi pi-image"
-					class="rounded"
-					label="Original Copy of Hospital Birth Certificate"
-					severity="contrast"
-				/> -->
-				<Carousel :value="imageUrls" :numVisible="3" :numScroll="1" :responsiveOptions="responsiveOptions" circular :autoplayInterval="3000">
-					<template #item="{data}">
-						<Image :src="data" alt="Image" height="350" preview />
-					</template>
-				</Carousel>
+				<div class="text-center">
+					<Image :src="imageUrls[0]" alt="Image" height="300" preview />
+					<p class="fs-5 text-muted fw-semibold mb-5 mt-2">Original Copy of Hospital Birth Certificate</p>
+				</div>
+
+				<div class="text-center">
+					<Image :src="imageUrls[1]" alt="Image" height="300" preview />
+					<p class="fs-5 text-muted fw-semibold mb-5 mt-2">Copy of Father's NIC</p>
+				</div>
+
+				<div class="text-center">
+					<Image :src="imageUrls[2]" alt="Image" height="300" preview />
+					<p class="fs-5 text-muted fw-semibold mb-5 mt-2">Copy of Mother's NIC</p>
+				</div>
+
+				<div class="text-center">
+					<Image :src="imageUrls[3]" alt="Image" height="300" preview />
+					<p class="fs-5 text-muted fw-semibold mb-5 mt-2">Copy of Grand Father's NIC</p>
+				</div>
+
+				<div class="text-center">
+					<Image :src="imageUrls[4]" alt="Image" height="300" preview />
+					<p class="fs-5 text-muted fw-semibold mb-5 mt-2">Affidavit verified by the commisioner (For home birth)</p>
+				</div>
 			</div>
 			<template #footer >
 				<Button class="rounded mr-2" label="Verify Documents" @click="updateCertificateStatus(2)"/>
@@ -258,17 +271,17 @@ export default {
 		const responsiveOptions = ref([
 			{
 				breakpoint: '1400px',
-				numVisible: 1,
+				numVisible: 2,
 				numScroll: 1
 			},
 			{
 				breakpoint: '1199px',
-				numVisible: 1,
+				numVisible: 3,
 				numScroll: 1
 			},
 			{
 				breakpoint: '767px',
-				numVisible: 1,
+				numVisible: 2,
 				numScroll: 1
 			},
 			{
