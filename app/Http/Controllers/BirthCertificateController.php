@@ -20,6 +20,7 @@ class BirthCertificateController extends Controller
         $birth_certificates = BirthCertificate::join('verification_statuses as statuses', 'statuses.id', 'birth_certificates.status_id')
             ->leftjoin('birth_certificate_children as bcc', 'bcc.birth_certificate_id', 'birth_certificates.id')
             ->orderBy('birth_certificates.id', 'DESC')
+            ->whereBetween('birth_certificates.created_at', [$request->dateFrom, $request->dateTo])
             ->get([
                 'birth_certificates.id',
                 'birth_certificates.applicant_name',

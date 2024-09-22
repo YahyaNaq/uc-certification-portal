@@ -29,6 +29,7 @@ return new class extends Migration
             $table->text('address');
             $table->string('phone_number');
             $table->integer('status_id')->index()->default(1);
+            $table->date('issue_date');
             $table->timestamps();
         });
     }
