@@ -25,15 +25,20 @@
                                 Forms
                             </router-link>
                         </li>
-                        <!-- <li>
-                            <router-link to="/about" class="nav-link mx-1 text-white" exact-active-class="fw-semibold fs-5">
-                                About
-                            </router-link>
-                        </li> -->
+                        <li>
+                            <Button
+                                label="Login"
+                                icon="pi pi-user"
+                                class="rounded py-2 px-3 ms-3"
+                                size="small"
+                                @click="isLoginModalVisible = true"
+                            />
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
+        <LoginModal :visible="isLoginModalVisible" @update:visible="isLoginModalVisible = $event"/>
 
         <!-- Main Content -->
         <div class="container my-4">
@@ -42,24 +47,14 @@
     </div>
 </template>
 
-<script scoped>
-import Sidebar from './components/Sidebar.vue';
-import UCLogo from './assets/images/ucLogo.jpg';
+<script setup>
+import UCLogo from '@/assets/images/ucLogo.jpg';
+import LoginModal from '@/components/modals/LoginModal.vue';
 import { ref } from 'vue';
+import Button from 'primevue/button';
 
-export default {
-    // name: 'App',
-    components: {
-        Sidebar,
-    },
-    setup() {
-        const UClogo = ref(UCLogo);
+const isLoginModalVisible = ref(false);
 
-        return {
-            UCLogo
-        };
-    }
-};
 </script>
 
 <style>

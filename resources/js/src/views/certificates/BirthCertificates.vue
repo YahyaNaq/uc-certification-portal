@@ -185,7 +185,7 @@ import Dialog from 'primevue/dialog';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
-import UCLogo from '../../assets/images/ucLogo.jpg';
+import UCLogo from '@/assets/images/ucLogo.jpg';
 import { toast } from 'vue3-toastify';
 import { useConfirm } from "primevue/useconfirm";
 import ConfirmPopup from 'primevue/confirmpopup';
@@ -193,6 +193,7 @@ import Carousel from 'primevue/carousel';
 import Calendar from 'primevue/calendar';
 import Card from 'primevue/card';
 import { Form, Field, ErrorMessage, useForm, useFieldArray } from 'vee-validate';
+import api from '../../services/api';
 
 
 const certificates = ref([]);
@@ -212,7 +213,6 @@ const confirm = useConfirm();
 const actionButtonRef = ref(null);
 
 const today = new Date();
-console.log(new Date().setDate(today.getDate() - 30));
 
 const { values, setFieldValue, errors, handleSubmit } = useForm({
 	initialValues: {
@@ -226,7 +226,7 @@ const onSubmit = handleSubmit((data) => {
 });
 
 const getDocuments = (id) => {
-	axios.get(`/api/certificates/birth-certificates/documents?id=${id}`)
+	api.get(`certificates/birth-certificates/documents?id=${id}`)
 		.then((response) => {
 			isDocumentsModalVisible.value = true;
 			const fileUrls = response.data;
@@ -304,7 +304,7 @@ const actionItems = (rowData) => {
 };
 
 const updateCertificateStatus = (status) => {
-	axios.post('api/certificates/birth-certificates/update-status', { status, certificate: viewDocumentsModalData.value})
+	api.post('certificates/birth-certificates/update-status', { status, certificate: viewDocumentsModalData.value})
 		.then((response) => {
 			let data = response.data;
 			toast(`Documents of <b>${data.applicant_name}</b> have been ${data.new_status}`, {
@@ -380,7 +380,7 @@ const lazyLoadData = () => {
 				"dangerouslyHTMLString": true
 			});
 	}
-	axios.get('/api/certificates/birth-certificates', {
+	api.get('certificates/birth-certificates', {
 		params: {
 			...values
 		}

@@ -160,7 +160,7 @@ import Button from "primevue/button";
 import Sidebar from 'primevue/sidebar';
 import Avatar from 'primevue/avatar';
 import { ref } from "vue";
-import UCLogo from '../assets/images/ucLogo.jpg';
+import UCLogo from '@/assets/images/ucLogo.jpg';
 
 const visible = ref(false);
 </script>

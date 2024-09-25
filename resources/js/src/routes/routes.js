@@ -1,7 +1,7 @@
 import '../../bootstrap';
 
-import Create from '../views/certificates/Create.vue';
-import Index from '../views/certificates/BirthCertificates.vue';
+import Create from '@/views/certificates/Create.vue';
+import Index from '@/views/certificates/BirthCertificates.vue';
 // import Edit from './components/Edit.vue';
 
 const routes = [
